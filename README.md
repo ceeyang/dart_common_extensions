@@ -1,14 +1,13 @@
-# DartExtensions
+# dart_common_extensions
 
-This package provides a collection of convenient extensions for Dart `DateTime`, `List`, `Map`, and `String` classes, aimed at simplifying common operations and enhancing code readability.
+A collection of convenient extensions for Dart providing additional functionality for `DateTime`, `List`, `Map`, and `String` classes.
 
 ## Features
 
-- **Date Formatting Extensions**: Easily format `DateTime` objects using common patterns.
-- **DateTime Extensions**: Useful methods for working with `DateTime`, including start/end of day calculations, business day additions, and more.
-- **List Extensions**: Enhancements for `List` operations, including random element selection, shuffling, chunking, and various aggregate functions.
-- **Map Extensions**: Utility methods for `Map` including value retrieval with defaults, JSON serialization, and map inversion.
-- **String Extensions**: Encode/decode strings to/from Base64, URL encoding, and perform common format validations.
+- **DateTime Extensions**: Format dates, add/subtract time units, compare dates
+- **String Extensions**: Common string operations and validations
+- **List Extensions**: Safe list operations, transformations
+- **Map Extensions**: Safe map access, transformations
 
 ## Installation
 

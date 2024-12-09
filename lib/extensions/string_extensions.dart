@@ -1,5 +1,19 @@
 part of '../dart_extensions.dart';
 
+/// Extensions on [String] to provide additional functionality.
+extension StringExtensions on String {
+  /// Checks if the string is null or empty.
+  ///
+  /// Returns true if the string is null or empty, false otherwise.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(''.isEmpty); // true
+  /// print('hello'.isEmpty); // false
+  /// ```
+  bool get isEmpty => this.length == 0;
+}
+
 /// String common type conversions extensions
 extension StringConversionExtensions on String {
   /// Converts the string to an integer. Returns null if the conversion fails.

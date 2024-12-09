@@ -1,0 +1,15 @@
+dartdoc:
+  categories:
+    "DateTime Extensions":
+      name: DateTime Extensions
+    "String Extensions":
+      name: String Extensions
+    "List Extensions":
+      name: List Extensions
+    "Map Extensions":
+      name: Map Extensions
+  showUndocumentedCategories: false
+  ignore:
+    - broken-link
+  errors:
+    - unresolved-doc-reference
