@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dart_common_extensions/dart_extensions.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('MapExtensions', () {

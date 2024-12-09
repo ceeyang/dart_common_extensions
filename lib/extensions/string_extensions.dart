@@ -48,9 +48,32 @@ extension StringConversionExtensions on String {
   /// Example:
   /// ```dart
   /// print('2023-01-01'.toDate); // Output: Instance of 'DateTime' for 2023-01-01
-  /// print('abc'.toDate); // Output: Instance of 'DateTime' for now
+  /// print('1643723400'.toDate); // Output: Instance of 'DateTime' for 2022-02-01
+  /// print('abc'.toDate); // Output: Instance of 'DateTime' for 1970-01-01 00:00:00 GMT
   /// ```
-  DateTime get toDate => isNumeric ? toInt.toDateTime : DateTime.tryParse(this) ?? DateTime.now();
+  DateTime get toDate => toDateTime;
+  DateTime get toDateTime {
+    try {
+      if (isEmpty) return DateTime.utc(1970, 1, 1);
+
+      // 尝试解析时间戳
+      if (isNumeric) {
+        final num = int.tryParse(this);
+        if (num != null) return num.toDateTime;
+      }
+
+      // 尝试解析日期字符串
+      final date = DateTime.tryParse(this);
+      if (date != null) return date;
+
+      return DateTime.utc(1970, 1, 1);
+    } catch (e) {
+      return DateTime.utc(1970, 1, 1);
+    }
+  }
+
+  /// Converts the string to a Uri object. Returns null if the conversion fails or the URL is invalid.
+  DateTime get utc1970 => DateTime.utc(1970, 1, 1);
 
   /// Converts the string to a Uri object. Returns null if the conversion fails or the URL is invalid.
   ///
@@ -108,7 +131,8 @@ extension StringConversionExtensions on String {
   /// print('1,2,3'.toIntList); // Output: [1, 2, 3]
   /// print('1,a,3'.toIntList); // Output: [1, 3]
   /// ```
-  List<int> get toIntList => split(',').map((s) => int.tryParse(s)).where((i) => i != null).cast<int>().toList();
+  List<int> get toIntList =>
+      split(',').map((s) => int.tryParse(s)).where((i) => i != null).cast<int>().toList();
 
   /// Converts a comma-separated string into a List<double>. Fails silently for non-numeric parts.
   ///
@@ -266,8 +290,8 @@ extension StringCustomFunctionExtensions on String {
   /// print('green'.toEnum(Colors.values)); // Output: Colors.green
   /// print('purple'.toEnum(Colors.values)); // Output: null
   /// ```
-  T? toEnum<T>(List<T> enumValues) =>
-      enumValues.firstWhereOrNull((e) => e.toString().split('.').last == this || e.toString() == this);
+  T? toEnum<T>(List<T> enumValues) => enumValues
+      .firstWhereOrNull((e) => e.toString().split('.').last == this || e.toString() == this);
 
   /// Capitalizes the first letter of the string.
   /// Returns the original string if it is empty.
@@ -355,4 +379,91 @@ extension StringCustomFunctionExtensions on String {
     if (endIndex > length) endIndex = length;
     return substring(startIndex, endIndex);
   }
+}
+
+extension StringToDateTimeStringExtensions on String {
+  /// Formats the current number as a date string in 'yyyy-MM-dd' format.
+  ///
+  /// Returns a string representation of the date in 'yyyy-MM-dd' format.
+  String get ymd => DateFormats.ymd.format(toDateTime);
+
+  /// Formats the current number as a date string in 'dd-MM-yyyy' format.
+  ///
+  /// Returns a string representation of the date in 'dd-MM-yyyy' format.
+  String get dmy => DateFormats.dmy.format(toDateTime);
+
+  /// Formats the current number as a date string in 'MM/dd/yyyy' format.
+  ///
+  /// Returns a string representation of the date in 'MM/dd/yyyy' format.
+  String get mdy => DateFormats.mdy.format(toDateTime);
+
+  /// Formats the current number as a date string in 'yyyy-MM' format.
+  ///
+  /// Returns a string representation of the date in 'yyyy-MM' format.
+  String get yearMonth => DateFormats.yearMonth.format(toDateTime);
+
+  /// Formats the current number as a date string in 'dd-MM' format.
+  ///
+  /// Returns a string representation of the date in 'dd-MM' format.
+  String get dayMonth => DateFormats.dayMonth.format(toDateTime);
+
+  /// Formats the current number as a time string in 'HH:mm' format.
+  ///
+  /// Returns a string representation of the time in 'HH:mm' format.
+  String get hm => DateFormats.hm.format(toDateTime);
+
+  /// Formats the current number as a time string in 'HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the time in 'HH:mm:ss' format.
+  String get hms => DateFormats.hms.format(toDateTime);
+
+  /// Formats the current number as a date-time string in ISO 8601 format 'yyyy-MM-ddTHH:mm:ss'.
+  ///
+  /// Returns a string representation of the date and time in ISO 8601 format.
+  String get iso8601 => DateFormats.iso8601.format(toDateTime);
+
+  /// Formats the current number as a full date and time string in 'yyyy-MM-dd HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the full date and time in 'yyyy-MM-dd HH:mm:ss' format.
+  String get fullDateTime => DateFormats.fullDateTime.format(toDateTime);
+
+  /// Formats the current number as a full date and time string in 'dd-MM-yyyy HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the full date and time in 'dd-MM-yyyy HH:mm:ss' format.
+  String get fullDateTimeDmy => DateFormats.fullDateTimeDmy.format(toDateTime);
+
+  /// Formats the current number as a full date and time string in 'MM/dd/yyyy HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the full date and time in 'MM/dd/yyyy HH:mm:ss' format.
+  String get fullDateTimeMdy => DateFormats.fullDateTimeMdy.format(toDateTime);
+
+  /// Formats the current number as a full date and time string in 'dd/MM/yyyy HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the full date and time in 'dd/MM/yyyy HH:mm:ss' format.
+  String get fullDateTimeDmY => DateFormats.fullDateTimeDmY.format(toDateTime);
+
+  /// Formats the current number as a time string in 'HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the time in 'HH:mm:ss' format.
+  String get time => DateFormats.time.format(toDateTime);
+
+  /// Formats the current number as a complete date-time string with timezone information in 'yyyy-MM-ddTHH:mm:ssZ' format.
+  ///
+  /// Returns a string representation of the complete date and time with timezone information.
+  String get zonedDateTime => DateFormats.zonedDateTime.format(toDateTime);
+
+  /// Formats the current number as a string only containing the month and year.
+  ///
+  /// Returns a string representation of the month and year.
+  String get monthYear => DateFormats.monthYear.format(toDateTime);
+
+  /// Formats the current number as a short date string, which is locale dependent.
+  ///
+  /// Returns a string representation of the short date, which is locale dependent.
+  String get shortDate => DateFormats.shortDate.format(toDateTime);
+
+  /// Formats the current number as a long date string, which is locale dependent.
+  ///
+  /// Returns a string representation of the long date, which is locale dependent.
+  String get longDate => DateFormats.longDate.format(toDateTime);
 }

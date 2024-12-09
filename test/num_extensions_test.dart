@@ -1,6 +1,6 @@
 import 'package:dart_common_extensions/dart_extensions.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('NumExtensions tests', () {
@@ -9,7 +9,8 @@ void main() {
     });
 
     test('toDateTime converts int to DateTime', () {
-      expect(1609459200000000.toDateTime, equals(DateTime.fromMicrosecondsSinceEpoch(1609459200000000)));
+      expect(1609459200000000.toDateTime,
+          equals(DateTime.fromMicrosecondsSinceEpoch(1609459200000000)));
       expect(1609459200000.toDateTime, equals(DateTime.fromMillisecondsSinceEpoch(1609459200000)));
     });
 

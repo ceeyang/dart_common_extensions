@@ -27,12 +27,16 @@ extension NumConversionExtensions on num {
   /// print(1609459200000000.toDateTime); // Output: 2021-01-01 00:00:00.000 (assuming microseconds)
   /// ```
   DateTime get toDateTime {
-    if (numberOfDigits == 13) {
-      return DateTime.fromMillisecondsSinceEpoch(toInt());
+    if (numberOfDigits == 10) {
+      // Assuming seconds and converting to milliseconds
+      return DateTime.fromMillisecondsSinceEpoch(toInt() * 1000);
+    } else if (numberOfDigits == 13) {
+      return DateTime.fromMillisecondsSinceEpoch(toInt()); // Assuming milliseconds
     } else if (numberOfDigits == 16) {
-      return DateTime.fromMicrosecondsSinceEpoch(toInt());
+      return DateTime.fromMicrosecondsSinceEpoch(toInt()); // Assuming microseconds
     }
-    return DateTime.now();
+    return DateTime.utc(1970, 1,
+        1); // Default to Unix Epoch time if the number of digits does not match any known timestamp format
   }
 
   /// Creates a [Duration] object representing a number of seconds.
@@ -183,7 +187,8 @@ extension NumToStringExtensions on num {
   /// ```
   /// print(123456.78.toCurrency(symbol: '€')); // Outputs: €123,456.78
   /// ```
-  String toCurrency({String symbol = '\$'}) => '$symbol${NumberFormat('#,##0.00', 'en_US').format(this)}';
+  String toCurrency({String symbol = '\$'}) =>
+      '$symbol${NumberFormat('#,##0.00', 'en_US').format(this)}';
 
   /// Converts the number to a binary (base-2) string representation.
   ///
@@ -279,6 +284,94 @@ extension OperatorExtension on num {
   ///
   /// Returns the factorial value. Note that due to using the `int` type, the result may be subject to
   /// integer overflow limitations, especially with larger numbers.
-  int get factorial =>
-      this == 0 ? 1 : List.generate(toInt(), (index) => index + 1).reduce((value, element) => value * element);
+  int get factorial => this == 0
+      ? 1
+      : List.generate(toInt(), (index) => index + 1).reduce((value, element) => value * element);
+}
+
+extension NumToDateTimeStringExtensions on num {
+  /// Formats the current number as a date string in 'yyyy-MM-dd' format.
+  ///
+  /// Returns a string representation of the date in 'yyyy-MM-dd' format.
+  String get ymd => DateFormats.ymd.format(toDateTime);
+
+  /// Formats the current number as a date string in 'dd-MM-yyyy' format.
+  ///
+  /// Returns a string representation of the date in 'dd-MM-yyyy' format.
+  String get dmy => DateFormats.dmy.format(toDateTime);
+
+  /// Formats the current number as a date string in 'MM/dd/yyyy' format.
+  ///
+  /// Returns a string representation of the date in 'MM/dd/yyyy' format.
+  String get mdy => DateFormats.mdy.format(toDateTime);
+
+  /// Formats the current number as a date string in 'yyyy-MM' format.
+  ///
+  /// Returns a string representation of the date in 'yyyy-MM' format.
+  String get yearMonth => DateFormats.yearMonth.format(toDateTime);
+
+  /// Formats the current number as a date string in 'dd-MM' format.
+  ///
+  /// Returns a string representation of the date in 'dd-MM' format.
+  String get dayMonth => DateFormats.dayMonth.format(toDateTime);
+
+  /// Formats the current number as a time string in 'HH:mm' format.
+  ///
+  /// Returns a string representation of the time in 'HH:mm' format.
+  String get hm => DateFormats.hm.format(toDateTime);
+
+  /// Formats the current number as a time string in 'HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the time in 'HH:mm:ss' format.
+  String get hms => DateFormats.hms.format(toDateTime);
+
+  /// Formats the current number as a date-time string in ISO 8601 format 'yyyy-MM-ddTHH:mm:ss'.
+  ///
+  /// Returns a string representation of the date and time in ISO 8601 format.
+  String get iso8601 => DateFormats.iso8601.format(toDateTime);
+
+  /// Formats the current number as a full date and time string in 'yyyy-MM-dd HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the full date and time in 'yyyy-MM-dd HH:mm:ss' format.
+  String get fullDateTime => DateFormats.fullDateTime.format(toDateTime);
+
+  /// Formats the current number as a full date and time string in 'dd-MM-yyyy HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the full date and time in 'dd-MM-yyyy HH:mm:ss' format.
+  String get fullDateTimeDmy => DateFormats.fullDateTimeDmy.format(toDateTime);
+
+  /// Formats the current number as a full date and time string in 'MM/dd/yyyy HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the full date and time in 'MM/dd/yyyy HH:mm:ss' format.
+  String get fullDateTimeMdy => DateFormats.fullDateTimeMdy.format(toDateTime);
+
+  /// Formats the current number as a full date and time string in 'dd/MM/yyyy HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the full date and time in 'dd/MM/yyyy HH:mm:ss' format.
+  String get fullDateTimeDmY => DateFormats.fullDateTimeDmY.format(toDateTime);
+
+  /// Formats the current number as a time string in 'HH:mm:ss' format.
+  ///
+  /// Returns a string representation of the time in 'HH:mm:ss' format.
+  String get time => DateFormats.time.format(toDateTime);
+
+  /// Formats the current number as a complete date-time string with timezone information in 'yyyy-MM-ddTHH:mm:ssZ' format.
+  ///
+  /// Returns a string representation of the complete date and time with timezone information.
+  String get zonedDateTime => DateFormats.zonedDateTime.format(toDateTime);
+
+  /// Formats the current number as a string only containing the month and year.
+  ///
+  /// Returns a string representation of the month and year.
+  String get monthYear => DateFormats.monthYear.format(toDateTime);
+
+  /// Formats the current number as a short date string, which is locale dependent.
+  ///
+  /// Returns a string representation of the short date, which is locale dependent.
+  String get shortDate => DateFormats.shortDate.format(toDateTime);
+
+  /// Formats the current number as a long date string, which is locale dependent.
+  ///
+  /// Returns a string representation of the long date, which is locale dependent.
+  String get longDate => DateFormats.longDate.format(toDateTime);
 }

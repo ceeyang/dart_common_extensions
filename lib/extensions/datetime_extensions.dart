@@ -119,6 +119,38 @@ extension DateTimeFormatExtensions on DateTime {
   /// ```
   String get mdy => DateFormats.mdy.format(this);
 
+  /// Formats the `DateTime` into 'yyyy-MM' format.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().yearMonth); // Output: "2023-04"
+  /// ```
+  String get yearMonth => DateFormats.yearMonth.format(this);
+
+  /// Formats the `DateTime` into 'dd-MM' format.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().dayMonth); // Output: "07-04"
+  /// ```
+  String get dayMonth => DateFormats.dayMonth.format(this);
+
+  /// Formats the `DateTime` into 'HH:mm' format.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().hm); // Output: "12:00"
+  /// ```
+  String get hm => DateFormats.hm.format(this);
+
+  /// Formats the `DateTime` into 'HH:mm:ss' format.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().hms); // Output: "12:00:00"
+  /// ```
+  String get hms => DateFormats.hms.format(this);
+
   /// Formats the `DateTime` into ISO 8601 standard format 'yyyy-MM-ddTHH:mm:ss'.
   ///
   /// Example:
@@ -134,6 +166,30 @@ extension DateTimeFormatExtensions on DateTime {
   /// print(DateTime.now().fullDateTime); // Output: "2023-04-07 12:00:00"
   /// ```
   String get fullDateTime => DateFormats.fullDateTime.format(this);
+
+  /// Formats the `DateTime` into 'dd-MM-yyyy HH:mm:ss' format.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().fullDateTimeDmy); // Output: "07-04-2023 12:00:00"
+  /// ```
+  String get fullDateTimeDmy => DateFormats.fullDateTimeDmy.format(this);
+
+  /// Formats the `DateTime` into 'MM/dd/yyyy HH:mm:ss' format.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().fullDateTimeMdy); // Output: "04/07/2023 12:00:00"
+  /// ```
+  String get fullDateTimeMdy => DateFormats.fullDateTimeMdy.format(this);
+
+  /// Formats the `DateTime` into 'dd/MM/yyyy HH:mm:ss' format.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().fullDateTimeDmY); // Output: "07/04/2023 12:00:00"
+  /// ```
+  String get fullDateTimeDmY => DateFormats.fullDateTimeDmY.format(this);
 
   /// Formats the `DateTime` into a time format string 'HH:mm:ss'.
   ///

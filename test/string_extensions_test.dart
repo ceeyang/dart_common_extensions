@@ -1,6 +1,6 @@
 import 'package:dart_common_extensions/dart_extensions.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 enum TestEnum { enumA, enumB, enumC }
 
@@ -147,6 +147,76 @@ void main() {
       expect("ABC123".isValidHex, isTrue);
       expect("abc123".isValidHex, isTrue);
       expect("123G".isValidHex, isFalse);
+    });
+    test('ymd correctly formats date strings in yyyy-MM-dd format, including timestamps', () {
+      expect("2023-01-01".ymd, "2023-01-01");
+      expect("2023-01-01T12:00:00".ymd, "2023-01-01");
+      expect("2023-01-01T12:00:00Z".ymd, "2023-01-01");
+      expect("2023-01-01T12:00:00+00:00".ymd, "2023-01-01");
+      expect("abc".ymd, "1970-01-01"); // Default date for invalid input
+      expect("1643723400".ymd, "2022-02-01"); // Unix timestamp
+    });
+
+    test('dmy correctly formats date strings in dd-MM-yyyy format, including timestamps', () {
+      expect("2023-01-01".dmy, "01-01-2023");
+      expect("2023-01-01T12:00:00".dmy, "01-01-2023");
+      expect("2023-01-01T12:00:00Z".dmy, "01-01-2023");
+      expect("2023-01-01T12:00:00+00:00".dmy, "01-01-2023");
+      expect("abc".dmy, "01-01-1970"); // Default date for invalid input
+      expect("1643723400".dmy, "01-02-2022"); // Unix timestamp
+    });
+
+    test('mdy correctly formats date strings in MM/dd/yyyy format, including timestamps', () {
+      expect("2023-01-01".mdy, "01/01/2023");
+      expect("2023-01-01T12:00:00".mdy, "01/01/2023");
+      expect("2023-01-01T12:00:00Z".mdy, "01/01/2023");
+      expect("2023-01-01T12:00:00+00:00".mdy, "01/01/2023");
+      expect("abc".mdy, "01/01/1970"); // Default date for invalid input
+      expect("1643723400".mdy, "02/01/2022"); // Unix timestamp
+    });
+
+    test('yearMonth correctly formats date strings in yyyy-MM format, including timestamps', () {
+      expect("2023-01-01".yearMonth, "2023-01");
+      expect("2023-01-01T12:00:00".yearMonth, "2023-01");
+      expect("2023-01-01T12:00:00Z".yearMonth, "2023-01");
+      expect("2023-01-01T12:00:00+00:00".yearMonth, "2023-01");
+      expect("abc".yearMonth, "1970-01"); // Default date for invalid input
+      expect("1643723400".yearMonth, "2022-02"); // Unix timestamp
+    });
+
+    test('dayMonth correctly formats date strings in dd-MM format, including timestamps', () {
+      expect("2023-01-01".dayMonth, "01-01");
+      expect("2023-01-01T12:00:00".dayMonth, "01-01");
+      expect("2023-01-01T12:00:00Z".dayMonth, "01-01");
+      expect("2023-01-01T12:00:00+00:00".dayMonth, "01-01");
+      expect("abc".dayMonth, "01-01"); // Default date for invalid input
+      expect("1643723400".dayMonth, "01-02"); // Unix timestamp
+    });
+
+    test('hm correctly formats time strings in HH:mm format, including timestamps', () {
+      expect("2023-01-01T12:00:00".hm, "12:00");
+      expect("2023-01-01T12:00:00Z".hm, "12:00");
+      expect("2023-01-01T12:00:00+00:00".hm, "12:00");
+      expect("abc".hm, "00:00"); // Default time for invalid input
+    });
+
+    test('hms correctly formats time strings in HH:mm:ss format, including timestamps', () {
+      expect("2023-01-01T12:00:00".hms, "12:00:00");
+      expect("2023-01-01T12:00:00Z".hms, "12:00:00");
+      expect("2023-01-01T12:00:00+00:00".hms, "12:00:00");
+      expect("abc".hms, "00:00:00"); // Default time for invalid input
+    });
+
+    test('iso8601 correctly formats date-time strings in ISO 8601 format, including timestamps',
+        () {
+      expect("2023-01-01T12:00:00".iso8601, "2023-01-01T12:00:00");
+      expect("abc".iso8601, "1970-01-01T00:00:00"); // Default date-time for invalid input
+    });
+
+    test(
+        'fullDateTime correctly formats date-time strings in yyyy-MM-dd HH:mm:ss format, including timestamps',
+        () {
+      expect("2023-01-01T12:00:00".fullDateTime, "2023-01-01 12:00:00");
     });
   });
 }

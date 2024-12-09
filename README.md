@@ -1,7 +1,9 @@
 # DartExtensions
+
 This package provides a collection of convenient extensions for Dart `DateTime`, `List`, `Map`, and `String` classes, aimed at simplifying common operations and enhancing code readability.
 
 ## Features
+
 - **Date Formatting Extensions**: Easily format `DateTime` objects using common patterns.
 - **DateTime Extensions**: Useful methods for working with `DateTime`, including start/end of day calculations, business day additions, and more.
 - **List Extensions**: Enhancements for `List` operations, including random element selection, shuffling, chunking, and various aggregate functions.
@@ -9,21 +11,30 @@ This package provides a collection of convenient extensions for Dart `DateTime`,
 - **String Extensions**: Encode/decode strings to/from Base64, URL encoding, and perform common format validations.
 
 ## Installation
-- 在你的 Flutter 或 Dart 项目的 `pubspec.yaml` 文件中添加以下依赖：
+
+Add this to your package's `pubspec.yaml` file:
+
 ```yaml
 dependencies:
   dart_extensions: ^latest_version
 ```
+
 - 然后运行：
+
 ```bash
 flutter pub get
 ```
+
 - 对于纯 Dart 项目，请运行：
+
 ```bash
 dart pub get
 ```
+
 ## Usage Examples
+
 ### String Conversion Extensions
+
 ```dart
 print('12'.toInt); // Output: 12
 print('12.34'.toDouble); // Output: 12.34
@@ -62,13 +73,41 @@ print('abc'.repeat(3)); // Output: 'abcabcabc'
 // enum TestEnum { valA, valB, valC }
 print('valA'.toEnum(TestEnum.values)); // Output: TestEnum.valA
 print('TestEnum.valA'.toEnum(TestEnum.values)); // Output: TestEnum.valA
+
+// DateTime String Format Extensions
+print('2023-01-01'.ymd); // Output: "2023-01-01"
+print('2023-01-01'.dmy); // Output: "01-01-2023"
+print('2023-01-01'.mdy); // Output: "01/01/2023"
+print('2023-01-01'.yearMonth); // Output: "2023-01"
+print('2023-01-01'.dayMonth); // Output: "01-01"
+print('2023-01-01 15:30:45'.hm); // Output: "15:30"
+print('2023-01-01 15:30:45'.hms); // Output: "15:30:45"
+print('2023-01-01'.iso8601); // Output: "2023-01-01T00:00:00"
+print('2023-01-01'.fullDateTime); // Output: "2023-01-01 00:00:00"
+print('2023-01-01'.fullDateTimeDmy); // Output: "01-01-2023 00:00:00"
+print('2023-01-01'.fullDateTimeMdy); // Output: "01/01/2023 00:00:00"
+print('2023-01-01'.fullDateTimeDmY); // Output: "01/01/2023 00:00:00"
+print('2023-01-01 15:30:45'.time); // Output: "15:30:45"
+print('2023-01-01'.zonedDateTime); // Output: "2023-01-01T00:00:00.000Z"
+print('2023-01-01'.monthYear); // Output: "January 2023"
+print('2023-01-01'.shortDate); // Output: "1/1/2023" (locale dependent)
+print('2023-01-01'.longDate); // Output: "January 1, 2023" (locale dependent)
+
+// Also works with timestamp strings
+print('1672531200000'.ymd); // Output: "2023-01-01"
+print('1672531200000'.fullDateTime); // Output: "2023-01-01 00:00:00"
+
+// Invalid date strings will return 1970-01-01 (Unix epoch) formatted according to the pattern
+print('invalid-date'.ymd); // Output: "1970-01-01"
 ```
 
 ### Num Extensions
+
 ```dart
 print(123.456.decimal); // Output: 123.456 (as a Decimal)
 print(5.toList); // Output: [0, 1, 2, 3, 4]
 print(1609459200000.toDateTime); // Output: 2021-01-01 00:00:00.000 (assuming milliseconds)
+print(1609459200000.ymd); // Output: '2021-01-01'
 print(60.secondsDuration); // Output: 0:01:00.000000
 
 print(2.isEven); // Output: true
@@ -108,6 +147,7 @@ print(map1.merge(map2, (v1, v2) => v1 + v2)); // Output: {'first': 1, 'second': 
 ```
 
 ### List Extensions
+
 ```dart
 List<int> intList = [1, 2, 3, 4, 5];
 List<String> stringList = ['a', 'b', 'c', 'd', 'e'];
@@ -133,7 +173,9 @@ List<num> nums = [1, 2, 3, 4];
 print(nums.sum); // Output: 10
 print(nums.average); // Output: 2.5
 ```
+
 ### DateTime Extensions
+
 ```dart
 DateTime now = DateTime.now();
 DateTime specificDate = DateTime(2023, 1, 1);
@@ -164,6 +206,7 @@ print(now.longDate); // Output: based on locale, e.g., "April 7, 2023"
 ```
 
 ## Running Tests
+
 ```bash
 dart test
 ```
