@@ -9,7 +9,7 @@ extension NumConversionExtensions on num {
   /// print(123.456.decimal); // Output: 123.456 (as a Decimal)
   /// print('abc'.decimal);   // Output: null
   /// ```
-  Decimal? get decimal => Decimal.tryParse(toString());
+  Decimal get decimal => Decimal.tryParse(toString()) ?? Decimal.zero;
 
   /// Generates a list of integers from 0 up to (but not including) this integer.
   ///
@@ -26,13 +26,13 @@ extension NumConversionExtensions on num {
   /// print(1609459200000.toDateTime); // Output: 2021-01-01 00:00:00.000 (assuming milliseconds)
   /// print(1609459200000000.toDateTime); // Output: 2021-01-01 00:00:00.000 (assuming microseconds)
   /// ```
-  DateTime? get toDateTime {
+  DateTime get toDateTime {
     if (numberOfDigits == 13) {
       return DateTime.fromMillisecondsSinceEpoch(toInt());
     } else if (numberOfDigits == 16) {
       return DateTime.fromMicrosecondsSinceEpoch(toInt());
     }
-    return null;
+    return DateTime.now();
   }
 
   /// Creates a [Duration] object representing a number of seconds.

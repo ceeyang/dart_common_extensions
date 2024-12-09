@@ -9,30 +9,29 @@ void main() {
     test('toInt converts string to int', () {
       expect('123'.toInt, equals(123));
       expect('123.22'.toInt, equals(123));
-      expect('abc'.toInt, isNull);
+      expect('abc'.toInt, equals(0));
     });
 
     test('toDouble converts string to double', () {
       expect('123.45'.toDouble, equals(123.45));
       expect('123'.toDouble, equals(123));
       expect('123.23232'.toDouble, equals(123.23232));
-      expect('123abc'.toDouble, isNull);
+      expect('123abc'.toDouble, equals(0));
     });
 
     test('toNum converts string to num', () {
       expect('123'.toNum, equals(123));
       expect('123.45'.toNum, equals(123.45));
-      expect('abc'.toNum, isNull);
+      expect('abc'.toNum, equals(0));
     });
 
     test('toDecimal converts string to Decimal', () {
       expect('123.45'.toDecimal, equals(Decimal.parse('123.45')));
-      expect('abc'.toDecimal, isNull);
+      expect('abc'.toDecimal, equals(Decimal.zero));
     });
 
     test('toDate converts string to DateTime', () {
       expect('2020-01-01'.toDate, equals(DateTime(2020, 1, 1)));
-      expect('invalid'.toDate, isNull);
     });
 
     test('toUri converts string to Uri', () {
@@ -45,7 +44,7 @@ void main() {
     test('toBool converts "true" and "false" correctly', () {
       expect("true".toBool, isTrue);
       expect("false".toBool, isFalse);
-      expect("not a boolean".toBool, isNull);
+      expect("not a boolean".toBool, isFalse);
     });
 
     test('toJson converts string to JSON object', () {

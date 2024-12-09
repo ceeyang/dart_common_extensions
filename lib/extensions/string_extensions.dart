@@ -8,18 +8,18 @@ extension StringConversionExtensions on String {
   /// ```dart
   /// print('12'.toInt); // Output: 12
   /// print('12.34'.toInt); // Output: 12 (truncated conversion)
-  /// print('abc'.toInt); // Output: null
+  /// print('abc'.toInt); // Output: 0
   /// ```
-  int? get toInt => toNum?.toInt();
+  int get toInt => toNum.toInt();
 
   /// Converts the string to a double. Returns null if the conversion fails.
   ///
   /// Example:
   /// ```dart
   /// print('12.34'.toDouble); // Output: 12.34
-  /// print('abc'.toDouble); // Output: null
+  /// print('abc'.toDouble); // Output: 0.00
   /// ```
-  double? get toDouble => toNum?.toDouble();
+  double get toDouble => toNum.toDouble();
 
   /// Converts the string to a num (which can be either int or double).
   /// Returns null if the conversion fails.
@@ -28,9 +28,9 @@ extension StringConversionExtensions on String {
   /// ```dart
   /// print('123'.toNum); // Output: 123
   /// print('123.45'.toNum); // Output: 123.45
-  /// print('abc'.toNum); // Output: null
+  /// print('abc'.toNum); // Output: 0
   /// ```
-  num? get toNum => num.tryParse(this);
+  num get toNum => num.tryParse(this) ?? 0;
 
   /// Converts the string to a Decimal. Returns null if the conversion fails.
   /// Requires the `decimal` package.
@@ -38,9 +38,9 @@ extension StringConversionExtensions on String {
   /// Example:
   /// ```dart
   /// print('123.45'.toDecimal); // Output: Decimal(123.45) assuming decimal is implemented
-  /// print('abc'.toDecimal); // Output: null
+  /// print('abc'.toDecimal); // Output: 0
   /// ```
-  Decimal? get toDecimal => Decimal.tryParse(this);
+  Decimal get toDecimal => Decimal.tryParse(this) ?? Decimal.zero;
 
   /// Attempts to parse the string into a DateTime object.
   /// Returns null if the parsing fails.
@@ -48,9 +48,9 @@ extension StringConversionExtensions on String {
   /// Example:
   /// ```dart
   /// print('2023-01-01'.toDate); // Output: Instance of 'DateTime' for 2023-01-01
-  /// print('abc'.toDate); // Output: null
+  /// print('abc'.toDate); // Output: Instance of 'DateTime' for now
   /// ```
-  DateTime? get toDate => isNumeric ? toInt?.toDateTime : DateTime.tryParse(this);
+  DateTime get toDate => isNumeric ? toInt.toDateTime : DateTime.tryParse(this) ?? DateTime.now();
 
   /// Converts the string to a Uri object. Returns null if the conversion fails or the URL is invalid.
   ///
@@ -67,9 +67,9 @@ extension StringConversionExtensions on String {
   /// ```dart
   /// print('true'.toBool); // Output: true
   /// print('False'.toBool); // Output: false
-  /// print('abc'.toBool); // Output: null
+  /// print('abc'.toBool); // Output: false
   /// ```
-  bool? get toBool => bool.tryParse(this);
+  bool get toBool => bool.tryParse(this) ?? false;
 
   /// Attempts to decode the string as a JSON object. Returns null if decoding fails.
   ///
@@ -343,4 +343,16 @@ extension StringCustomFunctionExtensions on String {
   /// print('abc'.repeat(3)); // Output: 'abcabcabc'
   /// ```
   String repeat(int times) => List.filled(times, this).join();
+
+  /// 安全地截取字符串，如果字符串长度不够，则返回原字符串。
+  ///
+  /// 例如：
+  /// ```dart
+  /// '12345678'.safeSubString(0, 20); // '12345678'
+  /// ```
+  String safeSubstring(int startIndex, int endIndex) {
+    if (startIndex < 0) startIndex = 0;
+    if (endIndex > length) endIndex = length;
+    return substring(startIndex, endIndex);
+  }
 }

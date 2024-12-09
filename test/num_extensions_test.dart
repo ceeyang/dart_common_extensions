@@ -11,8 +11,6 @@ void main() {
     test('toDateTime converts int to DateTime', () {
       expect(1609459200000000.toDateTime, equals(DateTime.fromMicrosecondsSinceEpoch(1609459200000000)));
       expect(1609459200000.toDateTime, equals(DateTime.fromMillisecondsSinceEpoch(1609459200000)));
-      expect(16094592000.toDateTime, isNull);
-      expect(0.toDateTime, isNull);
     });
 
     test('toList generates list from 0 to n-1', () {
