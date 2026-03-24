@@ -1,7 +1,7 @@
 name: dart_common_extensions
 description: "This package provides a collection of convenient extensions for Dart `DateTime`, `List`, `Map`, and `String` classes, aimed at simplifying common operations and enhancing code readability."
-version: 0.0.3
-homepage: https://github.com/ceeyang/dart_extensions
+version: 0.0.4
+homepage: https://github.com/ceeyang/dart_common_extensions
 license: MIT
 
 environment:
@@ -27,6 +27,6 @@ target:
 
 flutter:
 
-repository: https://github.com/ceeyang/dart_extensions
+repository: https://github.com/ceeyang/dart_common_extensions
 documentation: https://pub.dev/documentation/dart_common_extensions/latest/
 example: example/dart_common_extensions_example.dart

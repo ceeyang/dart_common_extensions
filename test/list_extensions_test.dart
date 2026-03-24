@@ -59,10 +59,10 @@ void main() {
       expect(list, equals(['a', 'c', 'b']));
     });
 
-    test('isEmptyOrNull checks if the list is empty or contains only nulls', () {
-      expect([null, null].isEmptyOrNull, isTrue);
-      expect([].isEmptyOrNull, isTrue);
-      expect([null, 1].isEmptyOrNull, isFalse);
+    test('isAllNull checks if the list contains only nulls', () {
+      expect([null, null].isAllNull, isTrue);
+      expect([].isAllNull, isTrue);
+      expect([null, 1].isAllNull, isFalse);
     });
 
     test('reversedList returns a new list with elements in reverse order', () {
@@ -85,6 +85,65 @@ void main() {
     test('unique returns a new list with only unique elements', () {
       expect([1, 2, 2, 3, 3, 3].unique, equals([1, 2, 3]));
     });
+
+    test('sumBy calculates the sum of elements by selector', () {
+      final list = ['a', 'ab', 'abc'];
+      expect(list.sumBy((s) => s.length), 6);
+    });
+
+    test('averageBy calculates the average of elements by selector', () {
+      final list = ['a', 'abc'];
+      expect(list.averageBy((s) => s.length), 2);
+    });
+
+    test('mapIndexed works correctly', () {
+      final list = ['a', 'b'];
+      expect(list.mapIndexed((i, e) => '$i$e').toList(), equals(['0a', '1b']));
+    });
+
+    test('whereIndexed works correctly', () {
+      final list = [10, 20, 30];
+      expect(list.whereIndexed((i, e) => i > 0).toList(), equals([20, 30]));
+    });
+
+    test('forEachIndexed works correctly', () {
+      final list = ['a', 'b'];
+      final results = <String>[];
+      list.forEachIndexed((i, e) => results.add('$i$e'));
+      expect(results, equals(['0a', '1b']));
+    });
+
+    test('distinctBy works correctly', () {
+      final list = [{'id': 1}, {'id': 1}, {'id': 2}];
+      expect(list.distinctBy((e) => e['id']).length, 2);
+    });
+
+    test('windowed works correctly', () {
+      expect([1, 2, 3, 4].windowed(2).toList(), [
+        [1, 2],
+        [2, 3],
+        [3, 4]
+      ]);
+      expect([1, 2, 3].windowed(5).toList(), isEmpty);
+      expect([1, 2, 3].windowed(2, step: 2).toList(), [
+        [1, 2]
+      ]);
+    });
+
+    test('zip works correctly', () {
+      expect([1, 2].zip(['a', 'b']).toList(), [
+        [1, 'a'],
+        [2, 'b']
+      ]);
+      expect([1].zip(['a', 'b']).toList(), [
+        [1, 'a']
+      ]);
+    });
+
+    test('count works correctly', () {
+      expect([1, 2, 3, 4].count((i) => i % 2 == 0), 2);
+      expect(<int>[].count((i) => true), 0);
+    });
   });
 
   group('NumListExtensions', () {
@@ -96,6 +155,13 @@ void main() {
     test('average calculates the average value', () {
       expect([1, 2, 3, 4].average, 2.5);
       expect([1].average, 1);
+    });
+
+    test('min and max work correctly', () {
+      expect([1, 5, 2].max, 5);
+      expect([1, 5, 2].min, 1);
+      expect(<num>[].max, 0);
+      expect(<num>[].min, 0);
     });
   });
 }

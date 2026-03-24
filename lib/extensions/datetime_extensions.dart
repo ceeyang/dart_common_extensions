@@ -82,9 +82,90 @@ extension DateTimeExtensions on DateTime {
   /// print(saturday.isWeekend); // Output: true
   /// ```
   bool get isWeekend => weekday == DateTime.saturday || weekday == DateTime.sunday;
+
+  /// Checks if this date is today.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().isToday); // true
+  /// ```
+  bool get isToday => isSameDay(DateTime.now());
+
+  /// Checks if this date is yesterday.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().subtract(Duration(days: 1)).isYesterday); // true
+  /// ```
+  bool get isYesterday => isSameDay(DateTime.now().subtract(const Duration(days: 1)));
+
+  /// Checks if this date is tomorrow.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime.now().add(Duration(days: 1)).isTomorrow); // true
+  /// ```
+  bool get isTomorrow => isSameDay(DateTime.now().add(const Duration(days: 1)));
+
+  /// Checks if this date is in the same month as [other].
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime(2023, 1, 1).isSameMonth(DateTime(2023, 1, 15))); // true
+  /// ```
+  bool isSameMonth(DateTime other) => year == other.year && month == other.month;
+
+  /// Checks if this date is in the same year as [other].
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime(2023, 1, 1).isSameYear(DateTime(2023, 12, 31))); // true
+  /// ```
+  bool isSameYear(DateTime other) => year == other.year;
+
+  /// Returns the date of the next day.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime(2023, 1, 1).nextDay); // 2023-01-02
+  /// ```
+  DateTime get nextDay => add(const Duration(days: 1));
+
+  /// Returns the date of the previous day.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime(2023, 1, 2).previousDay); // 2023-01-01
+  /// ```
+  DateTime get previousDay => subtract(const Duration(days: 1));
+
+  /// Checks if the year of this date is a leap year.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime(2024, 1, 1).isLeapYear); // true
+  /// ```
+  bool get isLeapYear {
+    final y = year;
+    return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+  }
+
+  /// Returns the number of days in the month of this date.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(DateTime(2024, 2, 1).daysInMonth); // 29
+  /// ```
+  int get daysInMonth {
+    return month == 2
+        ? (isLeapYear ? 29 : 28)
+        : [4, 6, 9, 11].contains(month)
+            ? 30
+            : 31;
+  }
 }
 
-/// DateTime common format extensions，returns formatted date strings.
+/// DateTime common format extensions, returns formatted date strings.
 extension DateTimeFormatExtensions on DateTime {
   /// Formats the `DateTime` object into a string using the provided [pattern].
   /// If no pattern is provided, 'yyyy-MM-dd' is used by default.

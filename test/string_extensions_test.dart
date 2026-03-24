@@ -148,6 +148,62 @@ void main() {
       expect("abc123".isValidHex, isTrue);
       expect("123G".isValidHex, isFalse);
     });
+
+    test('isIP correctly identifies IP addresses', () {
+      expect("192.168.1.1".isIP, isTrue);
+      expect("2001:0db8:85a3:0000:0000:8a2e:0370:7334".isIP, isTrue);
+      expect("abc.def.ghi.jkl".isIP, isFalse);
+      expect("256.256.256.256".isIP, isFalse);
+      expect("".isIP, isFalse);
+    });
+
+    test('isBase64 correctly identifies base64 strings', () {
+      expect("SGVsbG8=".isBase64, isTrue);
+      expect("invalid base64!".isBase64, isFalse);
+      expect("".isBase64, isTrue);
+    });
+
+    test('isJson correctly identifies JSON strings', () {
+      expect('{"key": "value"}'.isJson, isTrue);
+      expect('[1, 2, 3]'.isJson, isTrue);
+      expect('{"a":1, "b":["x", "y"]}'.isJson, isTrue);
+      expect('not json'.isJson, isFalse);
+      expect('{ "key": invalid }'.isJson, isFalse);
+      expect(''.isJson, isFalse);
+    });
+
+    test('Case conversions work correctly', () {
+      expect("hello_world".toCamelCase, equals("helloWorld"));
+      expect("hello-world".toCamelCase, equals("helloWorld"));
+      expect("HelloWorld".toSnakeCase, equals("hello_world"));
+      expect("HelloWorld".toKebabCase, equals("hello-world"));
+      expect("hello world".toTitleCase, equals("Hello World"));
+      expect("hello_world".toTitleCase, equals("Hello World"));
+    });
+
+    test('truncate and limit correctly shorten strings', () {
+      expect("Hello World".truncate(5), equals("Hello..."));
+      expect("Hi".truncate(5), equals("Hi"));
+      expect("Hello World".limit(5), equals("Hello..."));
+      expect("Test".limit(10), equals("Test"));
+    });
+
+    test('removePrefix and removeSuffix work correctly', () {
+      expect("pre_text".removePrefix("pre_"), equals("text"));
+      expect("text".removePrefix("pre_"), equals("text"));
+      expect("text_suf".removeSuffix("_suf"), equals("text"));
+      expect("text".removeSuffix("_suf"), equals("text"));
+      expect("".removePrefix("a"), equals(""));
+    });
+
+    test('substringBefore and substringAfter work correctly', () {
+      expect("user@example.com".substringBefore("@"), equals("user"));
+      expect("user@example.com".substringAfter("@"), equals("example.com"));
+      expect("no_delimiter".substringBefore("@"), equals("no_delimiter"));
+      expect("no_delimiter".substringAfter("@"), equals("no_delimiter"));
+      expect("u@e@m".substringBefore("@"), equals("u"));
+      expect("u@e@m".substringAfter("@"), equals("e@m"));
+    });
     test('ymd correctly formats date strings in yyyy-MM-dd format, including timestamps', () {
       expect("2023-01-01".ymd, "2023-01-01");
       expect("2023-01-01T12:00:00".ymd, "2023-01-01");

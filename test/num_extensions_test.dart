@@ -11,7 +11,8 @@ void main() {
     test('toDateTime converts int to DateTime', () {
       expect(1609459200000000.toDateTime,
           equals(DateTime.fromMicrosecondsSinceEpoch(1609459200000000)));
-      expect(1609459200000.toDateTime, equals(DateTime.fromMillisecondsSinceEpoch(1609459200000)));
+      expect(1609459200000.toDateTime,
+          equals(DateTime.fromMillisecondsSinceEpoch(1609459200000)));
     });
 
     test('toList generates list from 0 to n-1', () {
@@ -42,6 +43,23 @@ void main() {
       expect((-5).absolute, equals(5));
       expect((-10).absolute, equals(10));
       expect((10).absolute, equals(10));
+    });
+
+    test('Duration getters work correctly', () {
+      expect(5.days.inDays, 5);
+      expect(1.5.days.inHours, 36);
+      expect(10.hours.inHours, 10);
+      expect(1.5.hours.inMinutes, 90);
+      expect(30.minutes.inMinutes, 30);
+      expect(60.seconds.inSeconds, 60);
+      expect(500.milliseconds.inMilliseconds, 500);
+      expect(100.microseconds.inMicroseconds, 100);
+    });
+
+    test('toFileSize formatting works correctly', () {
+      expect(1024.toFileSize(), "1.00 KB");
+      expect((1024 * 1024).toFileSize(), "1.00 MB");
+      expect(500.toFileSize(), "500 B");
     });
   });
 }

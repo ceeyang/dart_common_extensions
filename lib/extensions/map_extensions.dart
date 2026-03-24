@@ -96,4 +96,60 @@ extension MapExtensions<K, V> on Map<K, V> {
     });
     return result;
   }
+
+  /// Returns a new map containing only the entries for the given [keys].
+  ///
+  /// Example:
+  /// ```dart
+  /// print({'a': 1, 'b': 2}.pick(['a'])); // {'a': 1}
+  /// ```
+  Map<K, V> pick(Iterable<K> keys) {
+    return Map.fromEntries(entries.where((e) => keys.contains(e.key)));
+  }
+
+  /// Returns a new map containing all entries except those for the given [keys].
+  ///
+  /// Example:
+  /// ```dart
+  /// print({'a': 1, 'b': 2}.omit(['a'])); // {'b': 2}
+  /// ```
+  Map<K, V> omit(Iterable<K> keys) {
+    return Map.fromEntries(entries.where((e) => !keys.contains(e.key)));
+  }
+
+  /// Returns true if any entry satisfies the [predicate].
+  bool any(bool Function(K key, V value) predicate) {
+    for (var entry in entries) {
+      if (predicate(entry.key, entry.value)) return true;
+    }
+    return false;
+  }
+
+  /// Returns true if all entries satisfy the [predicate].
+  bool all(bool Function(K key, V value) predicate) {
+    for (var entry in entries) {
+      if (!predicate(entry.key, entry.value)) return false;
+    }
+    return true;
+  }
+
+  /// Transforms the keys of the map.
+  ///
+  /// Example:
+  /// ```dart
+  /// print({'a': 1}.mapKeys((k, v) => k.toUpperCase())); // {'A': 1}
+  /// ```
+  Map<K2, V> mapKeys<K2>(K2 Function(K key, V value) transform) {
+    return Map.fromEntries(entries.map((e) => MapEntry(transform(e.key, e.value), e.value)));
+  }
+
+  /// Transforms the values of the map.
+  ///
+  /// Example:
+  /// ```dart
+  /// print({'a': 1}.mapValues((k, v) => v + 1)); // {'a': 2}
+  /// ```
+  Map<K, V2> mapValues<V2>(V2 Function(K key, V value) transform) {
+    return Map.fromEntries(entries.map((e) => MapEntry(e.key, transform(e.key, e.value))));
+  }
 }

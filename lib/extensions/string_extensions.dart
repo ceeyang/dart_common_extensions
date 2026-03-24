@@ -70,13 +70,13 @@ extension StringConversionExtensions on String {
     try {
       if (isEmpty) return DateTime.utc(1970, 1, 1);
 
-      // 尝试解析时间戳
+      // Try parsing timestamp
       if (isNumeric) {
         final num = int.tryParse(this);
         if (num != null) return num.toDateTime;
       }
 
-      // 尝试解析日期字符串
+      // Try parsing date string
       final date = DateTime.tryParse(this);
       if (date != null) return date;
 
@@ -280,6 +280,42 @@ extension StringFormatExtensions on String {
   /// print('GHIJK'.isValidHex); // Output: false
   /// ```
   bool get isValidHex => RegExp(r'^[0-9A-Fa-f]+$').hasMatch(this);
+
+  /// Checks if the string is a valid IPv4 or IPv6 address.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('192.168.1.1'.isIP); // true
+  /// ```
+  bool get isIP =>
+      RegExp(r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$')
+          .hasMatch(this) ||
+      RegExp(r'^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$')
+          .hasMatch(this);
+
+  /// Checks if the string is a valid Base64 encoded string.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('SGVsbG8='.isBase64); // true
+  /// ```
+  bool get isBase64 =>
+      RegExp(r'^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$').hasMatch(this);
+
+  /// Checks if the string is a valid JSON.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('{"a":1}'.isJson); // true
+  /// ```
+  bool get isJson {
+    try {
+      json.decode(this);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
 
 /// String common function extensions
@@ -352,9 +388,9 @@ extension StringCustomFunctionExtensions on String {
   /// print('Hello World World'.replaceLast('World', 'There')); // Output: 'Hello World There'
   /// ```
   String replaceLast(String from, String to) {
-    int lastAsteriskIndex = lastIndexOf(from);
-    if (lastAsteriskIndex != -1) {
-      return substring(0, lastAsteriskIndex) + to + substring(lastAsteriskIndex + 1);
+    int index = lastIndexOf(from);
+    if (index != -1) {
+      return substring(0, index) + to + substring(index + from.length);
     } else {
       return this;
     }
@@ -382,9 +418,9 @@ extension StringCustomFunctionExtensions on String {
   /// ```
   String repeat(int times) => List.filled(times, this).join();
 
-  /// 安全地截取字符串，如果字符串长度不够，则返回原字符串。
+  /// Safely substrings the string, if the string length is not enough, return the original string.
   ///
-  /// 例如：
+  /// Example:
   /// ```dart
   /// '12345678'.safeSubString(0, 20); // '12345678'
   /// ```
@@ -392,6 +428,103 @@ extension StringCustomFunctionExtensions on String {
     if (startIndex < 0) startIndex = 0;
     if (endIndex > length) endIndex = length;
     return substring(startIndex, endIndex);
+  }
+
+  /// Truncates the string to a maximum of [max] characters and adds a [suffix] if truncated.
+  ///
+  /// Example:
+  /// ```dart
+  /// 'This is a long text'.truncate(10); // 'This is a ...'
+  /// ```
+  String truncate(int max, {String suffix = '...'}) =>
+      length > max ? '${substring(0, max)}$suffix' : this;
+
+  /// Converts the string to snake_case.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('helloWorld'.toSnakeCase); // hello_world
+  /// ```
+  String get toSnakeCase {
+    return replaceAllMapped(RegExp(r'(?<=[a-z])[A-Z]'), (Match m) => '_${m.group(0)}')
+        .toLowerCase()
+        .replaceAll(RegExp(r'[\s-]+'), '_');
+  }
+
+  /// Converts the string to camelCase.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('hello_world'.toCamelCase); // helloWorld
+  /// ```
+  String get toCamelCase {
+    List<String> words = toSnakeCase.split('_');
+    if (words.isEmpty) return '';
+    return words[0] + words.skip(1).map((w) => w.capitalize).join();
+  }
+
+  /// Converts the string to kebab-case.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('helloWorld'.toKebabCase); // hello-world
+  /// ```
+  String get toKebabCase => toSnakeCase.replaceAll('_', '-');
+
+  /// Converts the string to Title Case.
+  ///
+  /// Example:
+  /// ```dart
+  /// 'hello world'.toTitleCase); // Hello World
+  /// ```
+  String get toTitleCase =>
+      split(RegExp(r'[\s_-]+')).map((w) => w.capitalize).join(' ');
+
+  /// Limits the string length to [count] and adds optional [suffix].
+  ///
+  /// Example:
+  /// ```dart
+  /// print('Long Text'.limit(4)); // Long...
+  /// ```
+  String limit(int count, {String suffix = '...'}) =>
+      length > count ? '${substring(0, count)}$suffix' : this;
+
+  /// Removes the given [prefix] from the start of the string if it exists.
+  ///
+  /// Example:
+  /// ```dart
+  /// 'prefix_text'.removePrefix('prefix_'); // 'text'
+  /// ```
+  String removePrefix(String prefix) => startsWith(prefix) ? substring(prefix.length) : this;
+
+  /// Removes the given [suffix] from the end of the string if it exists.
+  ///
+  /// Example:
+  /// ```dart
+  /// 'text_suffix'.removeSuffix('_suffix'); // 'text'
+  /// ```
+  String removeSuffix(String suffix) => endsWith(suffix) ? substring(0, length - suffix.length) : this;
+
+  /// Returns a substring before the first occurrence of [delimiter].
+  ///
+  /// Example:
+  /// ```dart
+  /// 'user@example.com'.substringBefore('@'); // 'user'
+  /// ```
+  String substringBefore(String delimiter, {String? missingDelimiterValue}) {
+    final index = indexOf(delimiter);
+    return index == -1 ? (missingDelimiterValue ?? this) : substring(0, index);
+  }
+
+  /// Returns a substring after the first occurrence of [delimiter].
+  ///
+  /// Example:
+  /// ```dart
+  /// 'user@example.com'.substringAfter('@'); // 'example.com'
+  /// ```
+  String substringAfter(String delimiter, {String? missingDelimiterValue}) {
+    final index = indexOf(delimiter);
+    return index == -1 ? (missingDelimiterValue ?? this) : substring(index + delimiter.length);
   }
 }
 

@@ -4,10 +4,13 @@ A collection of convenient extensions for Dart providing additional functionalit
 
 ## Features
 
-- **DateTime Extensions**: Format dates, add/subtract time units, compare dates
-- **String Extensions**: Common string operations and validations
-- **List Extensions**: Safe list operations, transformations
-- **Map Extensions**: Safe map access, transformations
+- **Object Extensions**: Functional scope functions (`let`, `also`) and null-safety checks.
+- **DateTime Extensions**: Format dates, add/subtract time units, compare dates, and business days calculation.
+- **String Extensions**: Common string operations, case conversions (`toCamelCase`, `toSnakeCase`, etc.), validations (`isIP`, `isJson`, `isBase64`), and advanced slicing (`substringBefore`).
+- **List & Iterable Extensions**: Safe list operations, transformations, indexed operations, sliding windows (`windowed`), and zipping.
+- **Map Extensions**: Safe map access, transformations, key/value mapping, and filtering (`pick`, `omit`).
+- **Enum Extensions**: Cyclic navigation (`next`, `previous`).
+- **Number Extensions**: Time durations (`5.days`), file size formatting (`toFileSize`), and math utilities.
 
 ## Installation
 
@@ -15,7 +18,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  dart_extensions: ^latest_version
+  dart_common_extensions: ^latest_version
 ```
 
 - 然后运行：
@@ -32,7 +35,17 @@ dart pub get
 
 ## Usage Examples
 
-### String Conversion Extensions
+### Object Extensions
+
+```dart
+var result = someObject.let((it) => it.doSomething());
+someObject.also((it) => print('Processed: $it'));
+
+print(someObject.isNull); // true if null
+print(someObject.isNotNull); // true if not null
+```
+
+### String Extensions
 
 ```dart
 print('12'.toInt); // Output: 12
@@ -55,9 +68,24 @@ print('1234'.isNumeric); // Output: true
 print('Hello'.isEnglish); // Output: true
 print('你好'.isChinese); // Output: true
 print('13912345678'.isChineseMobile); // Output: true
-print('user@example.com'.isEmail); // Output: true
-print('https://example.com'.isValidUrl); // Output: true
-print('AFFE'.isValidHex); // Output: true
+print('user@example.com'.isEmail); // true
+print('192.168.1.1'.isIP); // true
+print('{"a":1}'.isJson); // true
+print('SGVsbG8='.isBase64); // true
+print('https://example.com'.isValidUrl); // true
+print('AFFE'.isValidHex); // true
+
+print('hello_world'.toCamelCase); // helloWorld
+print('helloWorld'.toSnakeCase); // hello_world
+print('hello-world'.toKebabCase); // hello-world
+print('hello world'.toTitleCase); // Hello World
+
+print('This is a long text'.truncate(10)); // 'This is a ...'
+print('Long Text'.limit(4)); // 'Long...'
+print('prefix_text'.removePrefix('prefix_')); // 'text'
+print('text_suffix'.removeSuffix('_suffix')); // 'text'
+print('user@example.com'.substringBefore('@')); // 'user'
+print('user@example.com'.substringAfter('@')); // 'example.com'
 
 
 print(''.onEmpty('default')); // Output: 'default'
@@ -108,6 +136,9 @@ print(5.toList); // Output: [0, 1, 2, 3, 4]
 print(1609459200000.toDateTime); // Output: 2021-01-01 00:00:00.000 (assuming milliseconds)
 print(1609459200000.ymd); // Output: '2021-01-01'
 print(60.secondsDuration); // Output: 0:01:00.000000
+print(1.5.days); // Duration of 36 hours
+print(10.seconds); // Duration of 10 seconds
+print(1024.toFileSize()); // Output: 1.00 KB
 
 print(2.isEven); // Output: true
 print(3.isOdd); // Output: true
@@ -141,8 +172,15 @@ print(map.filterValues((value) => value > 1)); // Output: {'second': 2}
 
 var map1 = {'first': 1, 'second': 2};
 var map2 = {'second': 3, 'third': 4};
-print(map1.merge(map2); // Output: {'first': 1, 'second': 3, 'third': 4}
+print(map1.merge(map2)); // Output: {'first': 1, 'second': 3, 'third': 4}
 print(map1.merge(map2, (v1, v2) => v1 + v2)); // Output: {'first': 1, 'second': 5, 'third': 4}
+
+print({'a': 1, 'b': 2}.pick(['a'])); // {'a': 1}
+print({'a': 1, 'b': 2}.omit(['a'])); // {'b': 2}
+print({'a': 1}.mapKeys((k, v) => k.toUpperCase())); // {'A': 1}
+print({'a': 1}.mapValues((k, v) => v + 1)); // {'a': 2}
+print({'a': 1}.any((k, v) => v > 0)); // true
+print({'a': 1}.all((k, v) => v > 0)); // true
 ```
 
 ### List Extensions
@@ -167,10 +205,18 @@ print(intList); // Output: [1, 3, 4, 5, 6]
 print([null, null].isEmptyOrNull); // Output: true
 print(intList.reversedList); // Output: [6, 5, 4, 3, 1]
 print(stringList.mapToList((item) => item.toUpperCase())); // Output: ['A', 'B', 'C', 'D', 'E']
+print(intList.mapIndexed((i, e) => '$i: $e').toList()); // ['0: 1', '1: 3', ...]
+print(intList.distinctBy((e) => e % 2).toList()); // [1, 4]
+print([1, 2, 3, 4].windowed(2).toList()); // [[1, 2], [2, 3], [3, 4]]
+print([1, 2].zip(['a', 'b']).toList()); // [[1, 'a'], [2, 'b']]
+print(intList.count((i) => i > 3)); // 2
 print(intList.groupBy((item) => item % 2 == 0 ? 'even' : 'odd')); // Output: {'odd': [1, 3, 5], 'even': [4, 6]}
 List<num> nums = [1, 2, 3, 4];
 print(nums.sum); // Output: 10
 print(nums.average); // Output: 2.5
+print(nums.max); // 4
+print(nums.min); // 1
+print(['a', 'ab'].sumBy((s) => s.length)); // 3
 ```
 
 ### DateTime Extensions
@@ -202,6 +248,20 @@ print(now.zonedDateTime); // Output: e.g., "2023-04-07T12:00:00.000Z"
 print(now.monthYear); // Output: e.g., "April 2023"
 print(now.shortDate); // Output: based on locale, e.g., "4/7/2023"
 print(now.longDate); // Output: based on locale, e.g., "April 7, 2023"
+
+print(now.isToday); // true
+print(now.nextDay); // DateTime for tomorrow
+print(now.isSameMonth(DateTime(2023, 1, 1)));
+print(now.isLeapYear); // true/false
+print(now.daysInMonth); // 28/29/30/31
+```
+
+### Enum Extensions
+
+```dart
+enum Status { active, inactive }
+print(Status.active.next(Status.values)); // Status.inactive
+print(Status.inactive.previous(Status.values)); // Status.active
 ```
 
 ## Running Tests

@@ -13,3 +13,5 @@ part 'extensions/list_extensions.dart';
 part 'extensions/map_extensions.dart';
 part 'extensions/num_extensions.dart';
 part 'extensions/string_extensions.dart';
+part 'extensions/object_extensions.dart';
+part 'extensions/enum_extensions.dart';
