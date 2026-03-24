@@ -1,3 +1,16 @@
+## 0.0.4
+
+- Add `ObjectExtensions`: `let`, `also`, `isNull`, `isNotNull`.
+- Add `EnumExtensions`: `next`, `previous` for cyclic navigation.
+- Add `IterableExtensions`: `windowed`, `zip`, `count`, `mapIndexed`, `whereIndexed`, `forEachIndexed`, `distinctBy`.
+- Add `ListExtensions`: `min`, `max`, `sumBy`, `averageBy`.
+- Add `StringExtensions`: `isIP`, `isJson`, `isBase64`, `limit`, `truncate`, `substringBefore`, `substringAfter`, `removePrefix`, `removeSuffix`, and case conversions (`toCamelCase`, `toSnakeCase`, etc.).
+- Add `DateTimeExtensions`: `isToday`, `nextDay`, `isLeapYear`, `daysInMonth`.
+- Add `NumExtensions`: Fractional duration getters (e.g., `1.5.days`), `toFileSize` formatting.
+- Refactor `min`/`max` in `NumListExtensions` for better type compatibility.
+- Comprehensive unit tests (100+ cases) for all new and existing extensions.
+- update README with more examples.
+
 ## 0.0.3
 
 - Add `toDate` extension for string to date conversion
