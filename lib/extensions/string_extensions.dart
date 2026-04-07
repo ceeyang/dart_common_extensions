@@ -52,6 +52,7 @@ extension StringConversionExtensions on String {
   /// print('abc'.toDate); // Output: Instance of 'DateTime' for 1970-01-01 00:00:00 GMT
   /// ```
   DateTime get toDate => toDateTime;
+  /// Returns the [DateTime] represented by this string. Defaults to Unix Epoch (1970-01-01) if parsing fails.
   DateTime get toDateTime {
     try {
       if (isEmpty) return DateTime.utc(1970, 1, 1);
@@ -109,7 +110,7 @@ extension StringConversionExtensions on String {
     }
   }
 
-  /// Attempts to decode the string as a List<dynamic> from JSON. Returns an empty list if decoding fails.
+  /// Attempts to decode the string as a `List<dynamic>` from JSON. Returns an empty list if decoding fails.
   ///
   /// Example:
   /// ```dart
@@ -124,7 +125,7 @@ extension StringConversionExtensions on String {
     }
   }
 
-  /// Converts a comma-separated string into a List<int>. Fails silently for non-numeric parts.
+  /// Converts a comma-separated string into a `List<int>`. Fails silently for non-numeric parts.
   ///
   /// Example:
   /// ```dart
@@ -134,7 +135,7 @@ extension StringConversionExtensions on String {
   List<int> get toIntList =>
       split(',').map((s) => int.tryParse(s)).where((i) => i != null).cast<int>().toList();
 
-  /// Converts a comma-separated string into a List<double>. Fails silently for non-numeric parts.
+  /// Converts a comma-separated string into a `List<double>`. Fails silently for non-numeric parts.
   ///
   /// Example:
   /// ```dart
@@ -531,6 +532,7 @@ extension StringCustomFunctionExtensions on String {
   }
 }
 
+/// Date formatting extensions for Strings.
 extension StringToDateTimeStringExtensions on String {
   /// Formats the current number as a date string in 'yyyy-MM-dd' format.
   ///

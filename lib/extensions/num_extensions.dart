@@ -291,6 +291,7 @@ extension OperatorExtension on num {
       : List.generate(toInt(), (index) => index + 1).reduce((value, element) => value * element);
 }
 
+/// Extension for formatting [num] values as date/time strings assuming they are timestamps.
 extension NumToDateTimeStringExtensions on num {
   /// Formats the current number as a date string in 'yyyy-MM-dd' format.
   ///

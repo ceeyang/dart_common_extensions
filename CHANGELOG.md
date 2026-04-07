@@ -1,3 +1,9 @@
+## 0.0.6
+- Add `DecimalMoneyExtensions` for financial formatting of `Decimal` types.
+- Add `example/example.dart` for better documentation.
+- Improved documentation comments and fixed dartdoc formatting issues to improve package score.
+- Shortened project description in `pubspec.yaml`.
+
 ## 0.0.5
 - Add `toMoney()` and `formatMoney()` extensions to `num` and `String` for convenient financial formatting.
 - Support custom prefixes and variable decimal places for financial formatting.
