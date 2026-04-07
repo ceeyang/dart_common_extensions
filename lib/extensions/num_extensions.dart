@@ -215,7 +215,7 @@ extension NumToStringExtensions on num {
     final format = NumberFormat.currency(
       symbol: symbol,
       decimalDigits: decimalDigits,
-      customPattern: '$symbol#,##0${decimalDigits > 0 ? '.' + '0' * decimalDigits : ''}',
+      customPattern: '$symbol#,##0${decimalDigits > 0 ? '.${'0' * decimalDigits}' : ''}',
     );
     return format.format(this);
   }
@@ -248,7 +248,7 @@ extension NumToStringExtensions on num {
     const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     var i = (log(this) / log(1024)).floor();
     if (i == 0) return "${toInt()} B";
-    return ((this / pow(1024, i)).toStringAsFixed(decimals)) + " " + suffixes[i];
+    return '${(this / pow(1024, i)).toStringAsFixed(decimals)} ${suffixes[i]}';
   }
 }
 

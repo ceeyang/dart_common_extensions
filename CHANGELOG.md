@@ -1,3 +1,8 @@
+## 0.0.5
+- Add `toMoney()` and `formatMoney()` extensions to `num` and `String` for convenient financial formatting.
+- Support custom prefixes and variable decimal places for financial formatting.
+- Fixed `analysis_options.yaml` to include correctly installed lint package.
+
 ## 0.0.4
 
 - Add `ObjectExtensions`: `let`, `also`, `isNull`, `isNotNull`.
