@@ -51,6 +51,8 @@ print(someObject.isNotNull); // true if not null
 print('12'.toInt); // Output: 12
 print('12.34'.toDouble); // Output: 12.34
 print('123.45'.toNum); // Output: 123.45
+print('1234.567'.toMoney(decimalDigits: 1)); // Output: 1,234.6
+print('1234.56'.formatMoney(symbol: '¥', decimalDigits: 0)); // Output: ¥1,235
 print('2023-01-01'.toDate); // Output: Instance of 'DateTime' for 2023-01-01
 print('https://example.com'.toUri); // Output: Instance of 'Uri'
 print('true'.toBool); // Output: true
@@ -149,6 +151,8 @@ print((-5).absolute); // Output: 5
 await 5.secondsDelay(); // Waits for 5 seconds
 
 print(123456.78.toCurrency(symbol: '€')); // Outputs: €123,456.78
+print(1234.567.toMoney(decimalDigits: 1)); // Outputs: 1,234.6
+print(1234.56.formatMoney(symbol: '¥', decimalDigits: 0)); // Outputs: ¥1,235
 print(10.toBinaryString); // Outputs: 1010
 print(255.toHexString); // Outputs: ff
 

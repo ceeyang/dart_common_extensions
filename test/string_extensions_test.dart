@@ -68,6 +68,13 @@ void main() {
       expect('b'.toEnum(TestEnum.values), isNull);
       expect(''.toEnum(TestEnum.values), isNull);
     });
+
+    test('toMoney and formatMoney on String works correctly', () {
+      expect('1234.56'.toMoney(), "1,234.56");
+      expect('1234.567'.toMoney(decimalDigits: 1), "1,234.6");
+      expect('1234'.formatMoney(symbol: '¥', decimalDigits: 0), "¥1,234");
+      expect('abc'.toMoney(), "0.00"); // Default for invalid strings
+    });
   });
 
   group('EncodeExtensions tests', () {

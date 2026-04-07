@@ -61,5 +61,15 @@ void main() {
       expect((1024 * 1024).toFileSize(), "1.00 MB");
       expect(500.toFileSize(), "500 B");
     });
+
+    test('toMoney and formatMoney formatting works correctly', () {
+      expect(1234.56.toMoney(), "1,234.56");
+      expect(1234.567.toMoney(), "1,234.57"); // Default 2 decimal places with rounding
+      expect(1234.567.toMoney(decimalDigits: 1), "1,234.6");
+      expect(1234.formatMoney(symbol: '¥', decimalDigits: 0), "¥1,234");
+      expect(1234.56.formatMoney(symbol: '\$', decimalDigits: 2), "\$1,234.56");
+      expect((-1234.56).toMoney(), "-1,234.56");
+      expect(0.toMoney(), "0.00");
+    });
   });
 }

@@ -157,6 +157,23 @@ extension StringConversionExtensions on String {
   /// ```
   List<double> get toDoubleList =>
       split(',').map((s) => double.tryParse(s)).where((i) => i != null).cast<double>().toList();
+
+  /// Attempts to parse the string as a number and formats it as a money string.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('1234.56'.toMoney(decimalDigits: 1)); // 1,234.6
+  /// ```
+  String toMoney({int decimalDigits = 2}) => toNum.toMoney(decimalDigits: decimalDigits);
+
+  /// Attempts to parse the string as a number and formats it as a money string with custom prefix.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('1234.56'.formatMoney(symbol: '¥', decimalDigits: 0)); // ¥1,235
+  /// ```
+  String formatMoney({String symbol = '', int decimalDigits = 2}) =>
+      toNum.formatMoney(symbol: symbol, decimalDigits: decimalDigits);
 }
 
 /// String encoding processing extensions
