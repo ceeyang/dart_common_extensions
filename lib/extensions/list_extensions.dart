@@ -286,6 +286,29 @@ extension ListExtensions<T> on List<T> {
   /// var result = list.reversedList; // [3, 2, 1]
   /// ```
   List<T> get reversedList => reversed.toList();
+
+  /// Returns the first element that satisfies the highest priority predicate.
+  /// Iterates through [priorities] and for each predicate, finds the first matching
+  /// element in the list.
+  ///
+  /// Example:
+  /// ```dart
+  /// final result = list.firstWhereByPriority([
+  ///   (m) => m.code == 'a',       // Priority 1
+  ///   (m) => m.code == 'b',       // Priority 2
+  ///   (m) => m.isDefault == true, // Priority 3
+  /// ]);
+  /// ```
+  T? firstWhereByPriority(Iterable<bool Function(T)> priorities) {
+    for (var priority in priorities) {
+      for (var element in this) {
+        if (priority(element)) {
+          return element;
+        }
+      }
+    }
+    return null;
+  }
 }
 
 /// Common num list extensions

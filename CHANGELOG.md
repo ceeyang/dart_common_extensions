@@ -1,3 +1,6 @@
+## 0.0.7
+- Add `firstWhereByPriority` extension to `List<T>` to find the first element matching a list of predicate priorities.
+
 ## 0.0.6
 - Add `DecimalMoneyExtensions` for financial formatting of `Decimal` types.
 - Add `example/example.dart` for better documentation.

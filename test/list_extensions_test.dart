@@ -144,6 +144,40 @@ void main() {
       expect([1, 2, 3, 4].count((i) => i % 2 == 0), 2);
       expect(<int>[].count((i) => true), 0);
     });
+
+    test('firstWhereByPriority works correctly with multiple priorities', () {
+      final list = [
+        {'code': 'c', 'isDefault': false},
+        {'code': 'b', 'isDefault': false},
+        {'code': 'x', 'isDefault': true},
+      ];
+
+      final result = list.firstWhereByPriority([
+        (m) => m['code'] == 'a',
+        (m) => m['code'] == 'b',
+        (m) => m['isDefault'] == true,
+      ]);
+
+      expect(result?['code'], 'b');
+    });
+
+    test('firstWhereByPriority returns null if no priority matches', () {
+      final list = [1, 2, 3];
+      final result = list.firstWhereByPriority([
+        (i) => i > 5,
+        (i) => i < 0,
+      ]);
+      expect(result, isNull);
+    });
+
+    test('firstWhereByPriority returns first matching element for highest priority', () {
+      final list = [1, 2, 3, 4];
+      final result = list.firstWhereByPriority([
+        (i) => i % 2 == 0, // Matches 2 first
+        (i) => i > 2,      // Matches 3
+      ]);
+      expect(result, 2);
+    });
   });
 
   group('NumListExtensions', () {
