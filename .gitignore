@@ -739,3 +739,5 @@ hs_err_pid*
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux,web,intellij+all,visualstudiocode,androidstudio,flutter,dart,gitbook,git,android,objective-c,swift,vuejs,node
+
+.idx
