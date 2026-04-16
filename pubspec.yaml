@@ -1,6 +1,6 @@
 name: dart_common_extensions
 description: "A collection of convenient extensions for Dart DateTime, List, Map, and String classes to simplify common operations."
-version: 0.0.7
+version: 0.0.8
 homepage: https://github.com/ceeyang/dart_common_extensions
 license: MIT
 

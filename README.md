@@ -56,6 +56,8 @@ print('1234.56'.formatMoney(symbol: '¥', decimalDigits: 0)); // Output: ¥1,235
 print('2023-01-01'.toDate); // Output: Instance of 'DateTime' for 2023-01-01
 print('https://example.com'.toUri); // Output: Instance of 'Uri'
 print('true'.toBool); // Output: true
+print('0.1234'.toPercentage()); // Output: 12.34%
+print('1.2'.toPercentage()); // Output: 100.00%
 print('{"key": "value"}'.toJson); // Output: {key: value}
 print('1,2,3'.toIntList); // Output: [1, 2, 3]
 print('1.0,2.0,3.0'.toDoubleList); // Output: [1.0, 2.0, 3.0]
@@ -141,6 +143,8 @@ print(60.secondsDuration); // Output: 0:01:00.000000
 print(1.5.days); // Duration of 36 hours
 print(10.seconds); // Duration of 10 seconds
 print(1024.toFileSize()); // Output: 1.00 KB
+print(0.1234.toPercentage()); // Output: 12.34%
+print(Decimal.parse('0.5').toPercentage(fractionDigits: 0)); // Output: 50%
 
 print(2.isEven); // Output: true
 print(3.isOdd); // Output: true
@@ -206,7 +210,7 @@ print(intList); // Output: [1, 2, 3, 4, 5, 6]
 bool removed = intList.removeFirstWhere((item) => item == 2);
 print(removed); // Output: true
 print(intList); // Output: [1, 3, 4, 5, 6]
-print([null, null].isEmptyOrNull); // Output: true
+print([null, null].isAllNull); // Output: true
 print(intList.reversedList); // Output: [6, 5, 4, 3, 1]
 print(stringList.mapToList((item) => item.toUpperCase())); // Output: ['A', 'B', 'C', 'D', 'E']
 print(intList.mapIndexed((i, e) => '$i: $e').toList()); // ['0: 1', '1: 3', ...]

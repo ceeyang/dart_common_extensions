@@ -71,5 +71,22 @@ void main() {
       expect((-1234.56).toMoney(), "-1,234.56");
       expect(0.toMoney(), "0.00");
     });
+
+    test('toPercentage formatting works correctly', () {
+      expect(0.1234.toPercentage(), "12.34%");
+      expect(0.5.toPercentage(fractionDigits: 0), "50%");
+      expect(0.5.toPercentage(fractionDigits: 1), "50.0%");
+    });
+
+    test('toPercentage caps at 100%', () {
+      expect(1.0.toPercentage(), "100.00%");
+      expect(1.2.toPercentage(), "100.00%");
+      expect(100.toPercentage(), "100.00%");
+    });
+
+    test('toPercentage handles zero and negative values', () {
+      expect(0.toPercentage(), "0.00%");
+      expect((-0.1234).toPercentage(), "-12.34%");
+    });
   });
 }

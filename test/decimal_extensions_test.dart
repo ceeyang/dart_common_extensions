@@ -20,4 +20,23 @@ void main() {
       expect(Decimal.zero.toMoney(), "0.00");
     });
   });
+
+  group('DecimalPercentageExtension tests', () {
+    test('toPercentage formatting works correctly', () {
+      expect(Decimal.parse('0.1234').toPercentage(), "12.34%");
+      expect(Decimal.parse('0.5').toPercentage(fractionDigits: 0), "50%");
+      expect(Decimal.parse('0.5').toPercentage(fractionDigits: 1), "50.0%");
+    });
+
+    test('toPercentage caps at 100%', () {
+      expect(Decimal.parse('1.0').toPercentage(), "100.00%");
+      expect(Decimal.parse('1.2').toPercentage(), "100.00%");
+      expect(Decimal.parse('100').toPercentage(), "100.00%");
+    });
+
+    test('toPercentage handles zero and negative values', () {
+      expect(Decimal.zero.toPercentage(), "0.00%");
+      expect(Decimal.parse('-0.1234').toPercentage(), "-12.34%");
+    });
+  });
 }

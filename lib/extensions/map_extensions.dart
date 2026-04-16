@@ -85,7 +85,7 @@ extension MapExtensions<K, V> on Map<K, V> {
   /// var map2 = {'second': 3, 'third': 4};
   /// print(map1.merge(map2, (v1, v2) => v1 + v2)); // Output: {'first': 1, 'second': 5, 'third': 4}
   /// ```
-  Map<K, V> merge(Map<K, V> other, V Function(V v1, V v2)? resolve) {
+  Map<K, V> merge(Map<K, V> other, [V Function(V v1, V v2)? resolve]) {
     final Map<K, V> result = Map<K, V>.from(this);
     other.forEach((key, value) {
       if (result.containsKey(key) && resolve != null) {

@@ -161,6 +161,17 @@ extension StringConversionExtensions on String {
   /// ```
   String formatMoney({String symbol = '', int decimalDigits = 2}) =>
       toNum.formatMoney(symbol: symbol, decimalDigits: decimalDigits);
+
+  /// Attempts to parse the string as a number and converts it to a percentage string.
+  /// If the value is greater than 1, it is capped at 100%.
+  ///
+  /// Example:
+  /// ```dart
+  /// print('0.1234'.toPercentage()); // 12.34%
+  /// print('1.2'.toPercentage()); // 100.00%
+  /// ```
+  String toPercentage({int fractionDigits = 2}) =>
+      toDecimal.toPercentage(fractionDigits: fractionDigits);
 }
 
 /// String encoding processing extensions

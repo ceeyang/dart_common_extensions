@@ -75,6 +75,13 @@ void main() {
       expect('1234'.formatMoney(symbol: '¥', decimalDigits: 0), "¥1,234");
       expect('abc'.toMoney(), "0.00"); // Default for invalid strings
     });
+
+    test('toPercentage on String works correctly', () {
+      expect('0.1234'.toPercentage(), "12.34%");
+      expect('0.5'.toPercentage(fractionDigits: 0), "50%");
+      expect('1.2'.toPercentage(), "100.00%");
+      expect('abc'.toPercentage(), "0.00%");
+    });
   });
 
   group('EncodeExtensions tests', () {

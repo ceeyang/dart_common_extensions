@@ -1,3 +1,8 @@
+## 0.0.8
+- Add `toPercentage` extension to `Decimal`, `num`, and `String` for percentage formatting.
+- Automatically cap percentage at 100% if the value is greater than 1.
+- Support custom number of fraction digits.
+
 ## 0.0.7
 - Add `firstWhereByPriority` extension to `List<T>` to find the first element matching a list of predicate priorities.
 

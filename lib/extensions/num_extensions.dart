@@ -250,6 +250,25 @@ extension NumToStringExtensions on num {
     if (i == 0) return "${toInt()} B";
     return '${(this / pow(1024, i)).toStringAsFixed(decimals)} ${suffixes[i]}';
   }
+
+  /// Converts the [num] to a percentage string.
+  /// If the value is greater than 1, it is capped at 100%.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(0.1234.toPercentage()); // 12.34%
+  /// print(1.2.toPercentage()); // 100.00%
+  /// ```
+  String toPercentage({int fractionDigits = 2}) {
+    // logic: cap at 1 if greater than 1, otherwise use original value
+    final constrained = this > 1 ? 1 : this;
+
+    // convert to percentage: multiply by 100
+    final percentage = constrained * 100;
+
+    // format output
+    return "${percentage.toStringAsFixed(fractionDigits)}%";
+  }
 }
 
 /// Num conversion operator extensions

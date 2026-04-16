@@ -29,3 +29,26 @@ extension DecimalMoneyExtensions on Decimal {
     return format.format(value);
   }
 }
+
+/// Decimal percentage formatting extensions
+extension DecimalPercentageExtension on Decimal {
+  /// Converts the [Decimal] to a percentage string.
+  /// If the value is greater than 1, it is capped at 100%.
+  ///
+  /// Example:
+  /// ```dart
+  /// print(Decimal.parse('0.1234').toPercentage()); // 12.34%
+  /// print(Decimal.parse('1.2').toPercentage()); // 100.00%
+  /// ```
+  String toPercentage({int fractionDigits = 2}) {
+    final one = Decimal.one;
+    // logic: cap at 1 if greater than 1, otherwise use original value
+    final constrained = this > one ? one : this;
+
+    // convert to percentage: multiply by 100
+    final percentage = constrained * Decimal.fromInt(100);
+
+    // format output
+    return "${percentage.toStringAsFixed(fractionDigits)}%";
+  }
+}
