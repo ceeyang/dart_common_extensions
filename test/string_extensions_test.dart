@@ -142,19 +142,41 @@ void main() {
     });
 
     test('isValidUrl correctly identifies URLs', () {
+      // Valid URLs
       expect('http://example.com'.isValidUrl, isTrue);
       expect('https://example.com'.isValidUrl, isTrue);
       expect('https://www.example.com'.isValidUrl, isTrue);
+      
+      // Valid URLs with paths
       expect('https://www.example.com/path/to/resource'.isValidUrl, isTrue);
+      expect('https://example.com/index.html'.isValidUrl, isTrue);
+      expect('https://pai-statics.nppuat.com/20260418/775efba1cdf6f2f9a0e5430f20a0f094.jpeg'.isValidUrl, isTrue);
+      
+      // Valid URLs with query parameters and anchors
       expect('https://www.example.com?query=string'.isValidUrl, isTrue);
+      expect('https://example.com/path?param1=value1&param2=value2'.isValidUrl, isTrue);
+      expect('https://example.com#section-1'.isValidUrl, isTrue);
+      expect('https://example.com/path?query=string#hash'.isValidUrl, isTrue);
+      
+      // Valid URLs without protocol
       expect('www.example.com'.isValidUrl, isTrue);
       expect('example.com'.isValidUrl, isTrue);
+      expect('example.co.uk'.isValidUrl, isTrue);
+      
+      // Valid URLs with localhost and IPs
+      expect('http://localhost'.isValidUrl, isTrue);
+      expect('http://localhost:8080'.isValidUrl, isTrue);
+      expect('http://localhost:3000/api/users'.isValidUrl, isTrue);
+      expect('http://192.168.1.1'.isValidUrl, isTrue);
+      expect('https://10.0.0.5:443/status'.isValidUrl, isTrue);
+
+      // Invalid URLs
       expect('http://'.isValidUrl, isFalse);
       expect('https://'.isValidUrl, isFalse);
-      expect('https:// example.com'.isValidUrl, isFalse);
-      expect('htp://example.com'.isValidUrl, isFalse);
-      expect(''.isValidUrl, isFalse);
-      expect('www.example .com'.isValidUrl, isFalse);
+      expect('https:// example.com'.isValidUrl, isFalse); // contains space in domain
+      expect('htp://example.com'.isValidUrl, isFalse); // invalid protocol
+      expect(''.isValidUrl, isFalse); // empty string
+      expect('www.example .com'.isValidUrl, isFalse); // space in domain
     });
 
     test('isValidHex correctly identifies hex strings', () {

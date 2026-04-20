@@ -281,8 +281,9 @@ extension StringFormatExtensions on String {
   /// print('example.com'.isValidUrl); // Output: false
   /// ```
   bool get isValidUrl => RegExp(r'^(https?:\/\/)?'
-          r'([\w-]+(\.[\w-]+)+)'
-          r'([\/\w -]*)'
+          r'(localhost|[\w-]+(\.[\w-]+)+)'
+          r'(:\d+)?'
+          r'(/[\/\w \.-]*)?'
           r'(\?[\w- ;,./?%&=]*)?'
           r'(#[\w-]*)?$')
       .hasMatch(this);

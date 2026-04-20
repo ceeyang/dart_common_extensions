@@ -55,7 +55,8 @@ void main() async {
   print('192.168.1.1'.isIP); // true
   print('{"a":1}'.isJson); // true
   print('SGVsbG8='.isBase64); // true
-  print('https://example.com'.isValidUrl); // true
+  print('https://example.com/index.html'.isValidUrl); // true
+  print('http://localhost:8080/api/users'.isValidUrl); // true
   print('AFFE'.isValidHex); // true
 
   print('hello_world'.toCamelCase); // helloWorld

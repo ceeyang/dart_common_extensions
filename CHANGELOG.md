@@ -1,3 +1,6 @@
+## 0.0.9
+- Fix and enhance `isValidUrl` extension to support `localhost`, IP addresses, custom ports, and file extensions in paths.
+
 ## 0.0.8
 - Add `toPercentage` extension to `Decimal`, `num`, and `String` for percentage formatting.
 - Automatically cap percentage at 100% if the value is greater than 1.
