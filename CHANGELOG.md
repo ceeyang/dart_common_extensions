@@ -1,3 +1,8 @@
+## 0.1.0
+- Add list extension methods for moving elements: `move`, `moveAt`, `moved`, `movedAt`, `moveWhere`, and `movedWhere`.
+- Support both in-place mutation and immutable (returning a new list) operations.
+- Update example project with element movement usage.
+
 ## 0.0.9
 - Fix and enhance `isValidUrl` extension to support `localhost`, IP addresses, custom ports, and file extensions in paths.
 

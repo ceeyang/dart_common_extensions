@@ -198,6 +198,23 @@ void main() async {
   print(nums.min); // 1
   print(['a', 'ab'].sumBy((s) => s.length)); // 3
 
+  // Move elements
+  var moveList = [1, 2, 3, 4];
+  moveList.move(2, 3);
+  print(moveList); // Output: [1, 3, 4, 2] (moves 2 to index 3)
+
+  moveList.moveAt(0, 2);
+  print(moveList); // Output: [3, 4, 1, 2] (moves index 0, which is 1, to index 2)
+
+  var simpleList = ['a', 'b', 'c'];
+  print(simpleList.moved('a', 2)); // Output: ['b', 'c', 'a']
+  print(simpleList.movedAt(2, 0)); // Output: ['c', 'a', 'b']
+
+  var conditionList = [1, 2, 3, 4];
+  conditionList.moveWhere((i) => i.isEven, 3);
+  print(conditionList); // Output: [1, 3, 4, 2] (moves first even element, 2, to index 3)
+  print(conditionList.movedWhere((i) => i == 3, 0)); // Output: [3, 1, 4, 2] (moves element 3 to index 0)
+
   // --- DateTime Extensions ---
   print('\n--- DateTime Extensions ---');
   DateTime now = DateTime.now();

@@ -114,7 +114,11 @@ void main() {
     });
 
     test('distinctBy works correctly', () {
-      final list = [{'id': 1}, {'id': 1}, {'id': 2}];
+      final list = [
+        {'id': 1},
+        {'id': 1},
+        {'id': 2}
+      ];
       expect(list.distinctBy((e) => e['id']).length, 2);
     });
 
@@ -174,9 +178,89 @@ void main() {
       final list = [1, 2, 3, 4];
       final result = list.firstWhereByPriority([
         (i) => i % 2 == 0, // Matches 2 first
-        (i) => i > 2,      // Matches 3
+        (i) => i > 2, // Matches 3
       ]);
       expect(result, 2);
+    });
+
+    test('moveAt moves element correctly in-place and handles bounds/errors', () {
+      final list = [1, 2, 3];
+      list.moveAt(0, 2);
+      expect(list, equals([2, 3, 1]));
+
+      final list2 = [1, 2, 3];
+      list2.moveAt(2, 0);
+      expect(list2, equals([3, 1, 2]));
+
+      final list3 = [1, 2, 3];
+      list3.moveAt(1, 1);
+      expect(list3, equals([1, 2, 3]));
+
+      expect(() => list.moveAt(-1, 1), throwsRangeError);
+      expect(() => list.moveAt(1, 3), throwsRangeError);
+    });
+
+    test('move moves first occurrence of element correctly and handles errors', () {
+      final list = [1, 2, 3, 2];
+      final result1 = list.move(2, 3);
+      expect(result1, isTrue);
+      expect(list, equals([1, 3, 2, 2]));
+
+      final list2 = [1, 2, 3];
+      final result2 = list2.move(4, 1);
+      expect(result2, isFalse);
+      expect(list2, equals([1, 2, 3]));
+
+      expect(() => list2.move(1, -1), throwsRangeError);
+      expect(() => list2.move(1, 3), throwsRangeError);
+    });
+
+    test('movedAt returns new list with element moved, original unmodified', () {
+      final list = [1, 2, 3];
+      final result = list.movedAt(0, 2);
+      expect(result, equals([2, 3, 1]));
+      expect(list, equals([1, 2, 3]));
+
+      expect(() => list.movedAt(-1, 1), throwsRangeError);
+    });
+
+    test('moved returns new list with element moved, original unmodified', () {
+      final list = [1, 2, 3, 2];
+      final result1 = list.moved(2, 3);
+      expect(result1, equals([1, 3, 2, 2]));
+      expect(list, equals([1, 2, 3, 2]));
+
+      final result2 = list.moved(4, 1);
+      expect(result2, equals([1, 2, 3, 2]));
+
+      expect(() => list.moved(1, 5), throwsRangeError);
+    });
+
+    test('moveWhere moves first element satisfying condition and handles errors', () {
+      final list = [1, 2, 3, 4];
+      final result1 = list.moveWhere((i) => i % 2 == 0, 3);
+      expect(result1, isTrue);
+      expect(list, equals([1, 3, 4, 2]));
+
+      final list2 = [1, 3, 5];
+      final result2 = list2.moveWhere((i) => i % 2 == 0, 1);
+      expect(result2, isFalse);
+      expect(list2, equals([1, 3, 5]));
+
+      expect(() => list2.moveWhere((i) => i == 1, -1), throwsRangeError);
+      expect(() => list2.moveWhere((i) => i == 1, 4), throwsRangeError);
+    });
+
+    test('movedWhere returns new list with first element satisfying condition moved, original unmodified', () {
+      final list = [1, 2, 3, 4];
+      final result1 = list.movedWhere((i) => i % 2 == 0, 3);
+      expect(result1, equals([1, 3, 4, 2]));
+      expect(list, equals([1, 2, 3, 4]));
+
+      final result2 = list.movedWhere((i) => i > 10, 1);
+      expect(result2, equals([1, 2, 3, 4]));
+
+      expect(() => list.movedWhere((i) => i == 1, 5), throwsRangeError);
     });
   });
 

@@ -33,8 +33,8 @@ extension NumConversionExtensions on num {
     } else if (numberOfDigits == 16) {
       return DateTime.fromMicrosecondsSinceEpoch(toInt()); // Assuming microseconds
     }
-    return DateTime.utc(1970, 1,
-        1); // Default to Unix Epoch time if the number of digits does not match any known timestamp format
+    return DateTime.utc(
+        1970, 1, 1); // Default to Unix Epoch time if the number of digits does not match any known timestamp format
   }
 
   /// Creates a [Duration] object representing a number of seconds.
@@ -220,7 +220,6 @@ extension NumToStringExtensions on num {
     return format.format(this);
   }
 
-
   /// Converts the number to a binary (base-2) string representation.
   ///
   /// Example:
@@ -305,9 +304,8 @@ extension OperatorExtension on num {
   /// ```dart
   /// print(5.factorial); // 120
   /// ```
-  int get factorial => this == 0
-      ? 1
-      : List.generate(toInt(), (index) => index + 1).reduce((value, element) => value * element);
+  int get factorial =>
+      this == 0 ? 1 : List.generate(toInt(), (index) => index + 1).reduce((value, element) => value * element);
 }
 
 /// Extension for formatting [num] values as date/time strings assuming they are timestamps.

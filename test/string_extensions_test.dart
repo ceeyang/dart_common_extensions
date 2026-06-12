@@ -146,23 +146,23 @@ void main() {
       expect('http://example.com'.isValidUrl, isTrue);
       expect('https://example.com'.isValidUrl, isTrue);
       expect('https://www.example.com'.isValidUrl, isTrue);
-      
+
       // Valid URLs with paths
       expect('https://www.example.com/path/to/resource'.isValidUrl, isTrue);
       expect('https://example.com/index.html'.isValidUrl, isTrue);
       expect('https://pai-statics.nppuat.com/20260418/775efba1cdf6f2f9a0e5430f20a0f094.jpeg'.isValidUrl, isTrue);
-      
+
       // Valid URLs with query parameters and anchors
       expect('https://www.example.com?query=string'.isValidUrl, isTrue);
       expect('https://example.com/path?param1=value1&param2=value2'.isValidUrl, isTrue);
       expect('https://example.com#section-1'.isValidUrl, isTrue);
       expect('https://example.com/path?query=string#hash'.isValidUrl, isTrue);
-      
+
       // Valid URLs without protocol
       expect('www.example.com'.isValidUrl, isTrue);
       expect('example.com'.isValidUrl, isTrue);
       expect('example.co.uk'.isValidUrl, isTrue);
-      
+
       // Valid URLs with localhost and IPs
       expect('http://localhost'.isValidUrl, isTrue);
       expect('http://localhost:8080'.isValidUrl, isTrue);
@@ -299,15 +299,12 @@ void main() {
       expect("abc".hms, "00:00:00"); // Default time for invalid input
     });
 
-    test('iso8601 correctly formats date-time strings in ISO 8601 format, including timestamps',
-        () {
+    test('iso8601 correctly formats date-time strings in ISO 8601 format, including timestamps', () {
       expect("2023-01-01T12:00:00".iso8601, "2023-01-01T12:00:00");
       expect("abc".iso8601, "1970-01-01T00:00:00"); // Default date-time for invalid input
     });
 
-    test(
-        'fullDateTime correctly formats date-time strings in yyyy-MM-dd HH:mm:ss format, including timestamps',
-        () {
+    test('fullDateTime correctly formats date-time strings in yyyy-MM-dd HH:mm:ss format, including timestamps', () {
       expect("2023-01-01T12:00:00".fullDateTime, "2023-01-01 12:00:00");
     });
   });

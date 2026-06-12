@@ -60,8 +60,7 @@ extension IterableExtensions<T> on Iterable<T> {
   /// var list = ['a', 'ab'];
   /// var result = list.sumBy((s) => s.length); // 3
   /// ```
-  num sumBy(num Function(T) selector) =>
-      isEmpty ? 0 : map(selector).reduce((value, element) => value + element);
+  num sumBy(num Function(T) selector) => isEmpty ? 0 : map(selector).reduce((value, element) => value + element);
 
   /// Calculates the average value of all elements in the iterable by mapping them to numeric values.
   ///
@@ -308,6 +307,119 @@ extension ListExtensions<T> on List<T> {
       }
     }
     return null;
+  }
+
+  /// Moves the element at [fromIndex] to [toIndex].
+  ///
+  /// Throws a [RangeError] if [fromIndex] or [toIndex] are out of bounds.
+  ///
+  /// Example:
+  /// ```dart
+  /// var list = [1, 2, 3];
+  /// list.moveAt(0, 2); // list is now [2, 3, 1]
+  /// ```
+  void moveAt(int fromIndex, int toIndex) {
+    RangeError.checkValidIndex(fromIndex, this, 'fromIndex');
+    RangeError.checkValidIndex(toIndex, this, 'toIndex');
+    if (fromIndex == toIndex) return;
+    final element = removeAt(fromIndex);
+    insert(toIndex, element);
+  }
+
+  /// Moves the first occurrence of [element] to [toIndex].
+  ///
+  /// Returns `true` if the element was successfully moved, or `false` if the
+  /// element was not found in the list.
+  ///
+  /// Throws a [RangeError] if [toIndex] is out of bounds.
+  ///
+  /// Example:
+  /// ```dart
+  /// var list = [1, 2, 3];
+  /// var result = list.move(1, 2); // true, list is now [2, 3, 1]
+  /// ```
+  bool move(T element, int toIndex) {
+    final fromIndex = indexOf(element);
+    if (fromIndex == -1) return false;
+    RangeError.checkValidIndex(toIndex, this, 'toIndex');
+    moveAt(fromIndex, toIndex);
+    return true;
+  }
+
+  /// Returns a new list with the element at [fromIndex] moved to [toIndex].
+  ///
+  /// Throws a [RangeError] if [fromIndex] or [toIndex] are out of bounds.
+  ///
+  /// Example:
+  /// ```dart
+  /// var list = [1, 2, 3];
+  /// var result = list.movedAt(0, 2); // [2, 3, 1], list is still [1, 2, 3]
+  /// ```
+  List<T> movedAt(int fromIndex, int toIndex) {
+    RangeError.checkValidIndex(fromIndex, this, 'fromIndex');
+    RangeError.checkValidIndex(toIndex, this, 'toIndex');
+    final newList = List<T>.from(this);
+    if (fromIndex == toIndex) return newList;
+    final element = newList.removeAt(fromIndex);
+    newList.insert(toIndex, element);
+    return newList;
+  }
+
+  /// Returns a new list with the first occurrence of [element] moved to [toIndex].
+  ///
+  /// If the element is not found, returns a copy of the original list.
+  ///
+  /// Throws a [RangeError] if [toIndex] is out of bounds.
+  ///
+  /// Example:
+  /// ```dart
+  /// var list = [1, 2, 3];
+  /// var result = list.moved(1, 2); // [2, 3, 1], list is still [1, 2, 3]
+  /// ```
+  List<T> moved(T element, int toIndex) {
+    final fromIndex = indexOf(element);
+    if (fromIndex == -1) return List<T>.from(this);
+    RangeError.checkValidIndex(toIndex, this, 'toIndex');
+    return movedAt(fromIndex, toIndex);
+  }
+
+  /// Moves the first element that satisfies the given [test] to [toIndex].
+  ///
+  /// Returns `true` if an element was successfully moved, or `false` if no
+  /// element satisfies the [test].
+  ///
+  /// Throws a [RangeError] if [toIndex] is out of bounds.
+  ///
+  /// Example:
+  /// ```dart
+  /// var list = [1, 2, 3];
+  /// var result = list.moveWhere((i) => i % 2 == 0, 2); // true, list is now [1, 3, 2]
+  /// ```
+  bool moveWhere(bool Function(T) test, int toIndex) {
+    final fromIndex = indexWhere(test);
+    if (fromIndex == -1) return false;
+    RangeError.checkValidIndex(toIndex, this, 'toIndex');
+    moveAt(fromIndex, toIndex);
+    return true;
+  }
+
+  /// Returns a new list with the first element that satisfies the given [test]
+  /// moved to [toIndex].
+  ///
+  /// If no element satisfies [test], returns a copy of the original list.
+  ///
+  /// Throws a [RangeError] if [toIndex] is out of bounds.
+  ///
+  /// Example:
+  /// ```dart
+  /// var list = [1, 2, 3];
+  /// var result = list.movedWhere((i) => i % 2 == 0, 2); // [1, 3, 2], list is still [1, 2, 3]
+  /// ```
+  List<T> movedWhere(bool Function(T) test, int toIndex) {
+    final fromIndex = indexWhere(test);
+    if (fromIndex == -1) return List<T>.from(this);
+    RangeError.checkValidIndex(toIndex, this, 'toIndex');
+    return movedAt(fromIndex, toIndex);
   }
 }
 

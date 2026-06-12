@@ -52,6 +52,7 @@ extension StringConversionExtensions on String {
   /// print('abc'.toDate); // Output: Instance of 'DateTime' for 1970-01-01 00:00:00 GMT
   /// ```
   DateTime get toDate => toDateTime;
+
   /// Returns the [DateTime] represented by this string. Defaults to Unix Epoch (1970-01-01) if parsing fails.
   DateTime get toDateTime {
     try {
@@ -132,8 +133,7 @@ extension StringConversionExtensions on String {
   /// print('1,2,3'.toIntList); // Output: [1, 2, 3]
   /// print('1,a,3'.toIntList); // Output: [1, 3]
   /// ```
-  List<int> get toIntList =>
-      split(',').map((s) => int.tryParse(s)).where((i) => i != null).cast<int>().toList();
+  List<int> get toIntList => split(',').map((s) => int.tryParse(s)).where((i) => i != null).cast<int>().toList();
 
   /// Converts a comma-separated string into a `List<double>`. Fails silently for non-numeric parts.
   ///
@@ -170,8 +170,7 @@ extension StringConversionExtensions on String {
   /// print('0.1234'.toPercentage()); // 12.34%
   /// print('1.2'.toPercentage()); // 100.00%
   /// ```
-  String toPercentage({int fractionDigits = 2}) =>
-      toDecimal.toPercentage(fractionDigits: fractionDigits);
+  String toPercentage({int fractionDigits = 2}) => toDecimal.toPercentage(fractionDigits: fractionDigits);
 }
 
 /// String encoding processing extensions
@@ -315,8 +314,7 @@ extension StringFormatExtensions on String {
   /// ```dart
   /// print('SGVsbG8='.isBase64); // true
   /// ```
-  bool get isBase64 =>
-      RegExp(r'^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$').hasMatch(this);
+  bool get isBase64 => RegExp(r'^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$').hasMatch(this);
 
   /// Checks if the string is a valid JSON.
   ///
@@ -356,8 +354,8 @@ extension StringCustomFunctionExtensions on String {
   /// print('green'.toEnum(Colors.values)); // Output: Colors.green
   /// print('purple'.toEnum(Colors.values)); // Output: null
   /// ```
-  T? toEnum<T>(List<T> enumValues) => enumValues
-      .firstWhereOrNull((e) => e.toString().split('.').last == this || e.toString() == this);
+  T? toEnum<T>(List<T> enumValues) =>
+      enumValues.firstWhereOrNull((e) => e.toString().split('.').last == this || e.toString() == this);
 
   /// Capitalizes the first letter of the string.
   /// Returns the original string if it is empty.
@@ -452,8 +450,7 @@ extension StringCustomFunctionExtensions on String {
   /// ```dart
   /// 'This is a long text'.truncate(10); // 'This is a ...'
   /// ```
-  String truncate(int max, {String suffix = '...'}) =>
-      length > max ? '${substring(0, max)}$suffix' : this;
+  String truncate(int max, {String suffix = '...'}) => length > max ? '${substring(0, max)}$suffix' : this;
 
   /// Converts the string to snake_case.
   ///
@@ -493,8 +490,7 @@ extension StringCustomFunctionExtensions on String {
   /// ```dart
   /// 'hello world'.toTitleCase); // Hello World
   /// ```
-  String get toTitleCase =>
-      split(RegExp(r'[\s_-]+')).map((w) => w.capitalize).join(' ');
+  String get toTitleCase => split(RegExp(r'[\s_-]+')).map((w) => w.capitalize).join(' ');
 
   /// Limits the string length to [count] and adds optional [suffix].
   ///
@@ -502,8 +498,7 @@ extension StringCustomFunctionExtensions on String {
   /// ```dart
   /// print('Long Text'.limit(4)); // Long...
   /// ```
-  String limit(int count, {String suffix = '...'}) =>
-      length > count ? '${substring(0, count)}$suffix' : this;
+  String limit(int count, {String suffix = '...'}) => length > count ? '${substring(0, count)}$suffix' : this;
 
   /// Removes the given [prefix] from the start of the string if it exists.
   ///
